@@ -15,18 +15,53 @@ import {
   IonGrid,
   IonToast,
 } from "@ionic/react";
+import { Plugins } from "@capacitor/core";
+import "@codetrix-studio/capacitor-google-auth";
+
 var fieldTitle = "";
+var name = "";
+var userId = "";
+var fbtoken = "";
+
+const INITIAL_STATE = {
+  loggedIn: true,
+  user: {},
+};
 
 class AddHomePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      ...INITIAL_STATE,
+    };
   }
 
   async componentDidMount() {
     fieldTitle = "Login Successful";
+    this.getUserInfo();
     this.handleToast();
+    name = JSON.parse(localStorage.getItem("Name"));
+    userId = JSON.parse(localStorage.getItem("UserId"));
+    fbtoken = JSON.parse(localStorage.getItem("fbtoken"));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      console.log(nextProps.location);
+      console.log(this.props.location);
+    }
+  }
+
+  async getUserInfo() {
+    const response = await fetch(
+      `https://graph.facebook.com/${userId}?fields=id,name,gender,link&type=large&access_token=${fbtoken}`
+    );
+    const myJson = await response.json();
+    console.log(myJson);
+    this.setState({
+      user: myJson,
+    });
   }
 
   handleToast() {
@@ -36,6 +71,7 @@ class AddHomePage extends React.Component {
   }
 
   render() {
+    name = JSON.parse(localStorage.getItem("Name"));
     return (
       <IonPage className="ion_page">
         <IonHeader className="ion-no-border ion_header">
@@ -52,9 +88,7 @@ class AddHomePage extends React.Component {
             ></img>
           </IonList>
           <IonItem lines="none">
-            <IonLabel className="ion-text-wrap ion_label1">
-              Hi Rajath! <br /> Choose from the below options
-            </IonLabel>
+            <IonLabel className="ion-text-wrap ion_label1">{name}</IonLabel>
           </IonItem>
           <IonItem lines="none" className="loginbtn_item">
             <IonButton
