@@ -79,6 +79,8 @@ class LoginPage extends React.Component {
     console.info("result", result);
     if (result && result.accessToken) {
       console.info("token", result.accessToken);
+      localStorage.setItem("UserId", JSON.stringify(result.accessToken.userId));
+      localStorage.setItem("fbtoken", JSON.stringify(result.accessToken.token));
       this.props.history.push({
         pathname: "/AddHomePage",
         state: {
@@ -106,15 +108,13 @@ class LoginPage extends React.Component {
     const result = await Plugins.GoogleAuth.signIn();
     console.info("result", result);
     if (result) {
-      this.props.history.push({
-        pathname: "/AddHomePage",
-        state: {
-          name: result.name || result.displayName,
-          image: result.imageUrl,
-          email: result.email,
-        },
-      });
+      this.props.history.push({ pathname: "/AddHomePage" });
     }
+    localStorage.setItem("Name", JSON.stringify(result.displayName));
+    localStorage.setItem(
+      "Gtokens",
+      JSON.stringify(result.authentication.idToken)
+    );
     console.log(this.state);
   }
 
