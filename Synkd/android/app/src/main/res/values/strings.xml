@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Synkd</string>
+    <string name="title_activity_main">Synkd</string>
+    <string name="package_name">com.synkd.app</string>
+    <string name="custom_url_scheme">com.synkd.app</string>
+    <string name="facebook_app_id">1524563627753863</string>
+    <string name="fb_login_protocol_scheme">fb1524563627753863</string>
+    <string name="server_client_id">117878083526-ibnd11p43nj42lbs3pc8mtje0ctc03ee.apps.googleusercontent.com</string>
+</resources>
