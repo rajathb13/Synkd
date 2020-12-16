@@ -22,6 +22,7 @@ var fieldTitle = "";
 var name = "";
 var userId = "";
 var fbtoken = "";
+var username = "";
 
 const INITIAL_STATE = {
   loggedIn: true,
@@ -39,11 +40,15 @@ class AddHomePage extends React.Component {
 
   async componentDidMount() {
     fieldTitle = "Login Successful";
-    this.getUserInfo();
     this.handleToast();
     name = JSON.parse(localStorage.getItem("Name"));
     userId = JSON.parse(localStorage.getItem("UserId"));
     fbtoken = JSON.parse(localStorage.getItem("fbtoken"));
+    username = JSON.parse(localStorage.getItem("username"));
+
+    if (!username) {
+      this.getUserInfo();
+    }
   }
 
   componentWillReceiveProps(nextProps) {

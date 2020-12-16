@@ -18,6 +18,11 @@ class Homepage extends React.Component {
   render() {
     return (
       <IonPage className="ion_page">
+        <IonHeader className="ion-no-border ion_header">
+          <IonToolbar>
+            <IonTitle>Home</IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <IonContent class="ion_content"></IonContent>
       </IonPage>
     );

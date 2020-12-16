@@ -63,7 +63,7 @@ class LoginPage extends React.Component {
   }
 
   SignUpFn() {
-    this.props.history.push({ pathname: "/SignUpPage" });
+    this.props.history.push({ pathname: "/RegisterPage" });
   }
 
   async FbSignOut() {
@@ -157,6 +157,7 @@ class LoginPage extends React.Component {
               /*On success, setting the user phone in the local storage*/
               let obj = this.state.username;
               localStorage.setItem("username", JSON.stringify(obj));
+              localStorage.setItem("tokens", JSON.stringify(resp.token));
               // if (resp.homeid != null) {
               //   this.props.history.push({ pathname: "/HomePage" });
               // } else {

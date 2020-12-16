@@ -23,7 +23,7 @@ class Home extends React.Component {
   }
 
   SignUpFn() {
-    this.props.history.push({ pathname: "/SignUpPage" });
+    this.props.history.push({ pathname: "/RegisterPage" });
   }
 
   render() {
@@ -83,9 +83,7 @@ class Home extends React.Component {
               shape="round"
               size="default"
               color="medium"
-              onClick={() => {
-                this.SignUpFn();
-              }}
+              onClick={() => this.SignUpFn()}
             >
               Sign Up
             </IonButton>
