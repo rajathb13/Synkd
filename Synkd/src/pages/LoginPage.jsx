@@ -63,7 +63,7 @@ class LoginPage extends React.Component {
   }
 
   SignUpFn() {
-    this.props.history.push({ pathname: "/SignUpPage" });
+    this.props.history.push({ pathname: "/RegisterPage" });
   }
 
   async FbSignOut() {

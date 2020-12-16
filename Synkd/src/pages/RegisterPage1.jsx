@@ -87,6 +87,10 @@ class RegisterPage1 extends React.Component {
     console.log(this.state);
   }
 
+  SignUpFn() {
+    this.props.history.push({ pathname: "/SignUpPage" });
+  }
+
   render() {
     return (
       <IonPage className="ion_page">
@@ -105,6 +109,7 @@ class RegisterPage1 extends React.Component {
               shape="round"
               size="default"
               color="medium"
+              onClick={() => this.SignUpFn()}
             >
               Sign Up with Email
             </IonButton>
