@@ -8,6 +8,11 @@
 
 .ion_header {
   position: relative;
+  background-color: gray;
+}
+
+.toolbar-backgroundColor {
+  background-color: gray;
 }
 
 .ion_page {
@@ -83,4 +88,8 @@ ion-item {
 .ion_label1 {
   font-size: 16pt !important;
   text-align: center;
+}
+
+.home_name {
+  margin-top: 10rem;
 }

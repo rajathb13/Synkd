@@ -14,16 +14,82 @@ import {
   IonGrid,
   IonImg,
 } from "@ionic/react";
+import { Plugins } from "@capacitor/core";
+import "@codetrix-studio/capacitor-google-auth";
+
+const INITIAL_STATE = {
+  loggedIn: false,
+};
+
+const GINITIAL_STATE = {};
 
 class RegisterPage1 extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...INITIAL_STATE,
+      ...GINITIAL_STATE,
+    };
+  }
+
+  responseFacebook = (response) => {
+    console.log(response);
+  };
+
+  componentClicked = () => console.log("clicked");
+
+  async fbSignIin() {
+    const FACEBOOK_PERMISSIONS = ["public_profile", "email"];
+
+    const result = await Plugins.FacebookLogin.login({
+      permissions: FACEBOOK_PERMISSIONS,
+    });
+    console.info("result", result);
+    if (result && result.accessToken) {
+      console.info("token", result.accessToken);
+      localStorage.setItem("UserId", JSON.stringify(result.accessToken.userId));
+      localStorage.setItem("fbtoken", JSON.stringify(result.accessToken.token));
+      this.props.history.push({
+        pathname: "/AddHomePage",
+        state: {
+          token: result.accessToken.token,
+          userId: result.accessToken.userId,
+        },
+      });
+    }
+
+    console.log(result);
+  }
+
+  async getCurrentState() {
+    const result = await Plugins.FacebookLogin.getCurrentAccessToken();
+
+    try {
+      console.log(result);
+      return result && result.accessToken;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async GsignIn() {
+    const result = await Plugins.GoogleAuth.signIn();
+    console.info("result", result);
+    if (result) {
+      this.props.history.push({ pathname: "/AddHomePage" });
+    }
+    localStorage.setItem("Name", JSON.stringify(result.displayName));
+    localStorage.setItem(
+      "Gtokens",
+      JSON.stringify(result.authentication.idToken)
+    );
+    console.log(this.state);
+  }
+
   render() {
     return (
       <IonPage className="ion_page">
-        <IonHeader className="ion-no-border ion_header">
-          <IonToolbar>
-            <IonTitle>Login</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <IonContent className="ion_content">
           <IonList className="ion_list">
             <img
@@ -40,7 +106,7 @@ class RegisterPage1 extends React.Component {
               size="default"
               color="medium"
             >
-              Register with Email
+              Sign Up with Email
             </IonButton>
           </IonItem>
           <IonGrid className="login_grid">
@@ -69,10 +135,18 @@ class RegisterPage1 extends React.Component {
             </IonRow>
           </IonGrid>
           <div className="social_btns">
-            <IonButton fill="clear" className="facebookbtn ion-no-padding">
+            <IonButton
+              fill="clear"
+              className="facebookbtn ion-no-padding"
+              onClick={() => this.fbSignIin()}
+            >
               <IonImg src={require("../images/fb3.png")}></IonImg>
             </IonButton>
-            <IonButton fill="clear" className="googlebtn ion-no-padding">
+            <IonButton
+              fill="clear"
+              className="googlebtn ion-no-padding"
+              onClick={() => this.GsignIn()}
+            >
               <IonImg src={require("../images/g3.png")}></IonImg>
             </IonButton>
           </div>
