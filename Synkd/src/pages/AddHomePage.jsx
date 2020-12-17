@@ -51,13 +51,6 @@ class AddHomePage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location !== this.props.location) {
-      console.log(nextProps.location);
-      console.log(this.props.location);
-    }
-  }
-
   async getUserInfo() {
     const response = await fetch(
       `https://graph.facebook.com/${userId}?fields=id,name,gender,link&type=large&access_token=${fbtoken}`
