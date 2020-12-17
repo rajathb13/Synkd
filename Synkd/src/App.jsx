@@ -11,6 +11,7 @@ import LaS from "./pages/LoginandSignupPage";
 import SignUpPage from "./pages/SignUpPage";
 import "@codetrix-studio/capacitor-google-auth";
 import NameHomePage from "./pages/NameHomePage";
+import CheckUser from "./components/CheckUser";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -38,14 +39,15 @@ class App extends React.Component {
         <IonReactRouter>
           <IonRouterOutlet>
             <Route path="/LoginAndSignUpPage" component={LaS} exact={true} />
-            <Route exact path="/" render={() => <Redirect to="/HomePage" />} />
+            <Route exact path="/" render={() => <Redirect to="/CheckUser" />} />
             <Route path="/RegisterPage" component={RegisterPage} exact={true} />
             <Route path="/AddHomePage" component={AddHomePage} exact={true} />
             <Route path="/JoinHomePage" component={JoinHomePage} exact={true} />
-            <Route path="/HomePage" component={HomePage} exact={true} />
+            <Route path="/EHomePage" component={HomePage} exact={true} />
             <Route path="/LoginPage" component={LoginPage} exact={true} />
             <Route path="/SignUpPage" component={SignUpPage} exact={true} />
             <Route path="/NameHomePage" component={NameHomePage} exact={true} />
+            <Route path="/CheckUser" component={CheckUser} exact={true} />
           </IonRouterOutlet>
         </IonReactRouter>
       </IonApp>

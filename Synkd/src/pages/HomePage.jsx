@@ -15,6 +15,10 @@ import {
 } from "@ionic/react";
 
 class Homepage extends React.Component {
+  async componentDidMount() {
+    localStorage.setItem("UPage", JSON.stringify("/EHomePage"));
+  }
+
   render() {
     return (
       <IonPage className="ion_page">

@@ -1,5 +1,6 @@
 import React from "react";
 import withSplashScreen from "./withSplashScreen";
+import img1 from "../images/synkd_logo.png";
 
 var token;
 var page;
@@ -9,7 +10,7 @@ class CheckUser extends React.Component {
   constructor(props) {
     super(props);
     page = JSON.parse(localStorage.getItem("UPage"));
-    username = JSON.parse(localStorage.getItem("username"));
+    // username = JSON.parse(localStorage.getItem("username"));
     token = JSON.parse(localStorage.getItem("token"));
     this.state = {
       loading: true,
@@ -17,44 +18,42 @@ class CheckUser extends React.Component {
   }
 
   pageMoveHome() {
-    window.location.href = "/UserHome";
+    window.location.href = "/EHomePage";
   }
 
   pageMoveSignIn() {
-    window.location.href = "/Home";
-  }
-
-  pageMoveMap1() {
-    window.location.href = "/UserExpertSearch";
-  }
-
-  pageMoveMap2() {
-    window.location.href = "/UserExpertSearch";
+    window.location.href = "/LoginPage";
   }
 
   render() {
-    if (username != null && token != null) {
-      if (page === "UserExpertSearch") {
-        this.pageMoveMap1();
-      } else if (page === "UserExpert") {
-        this.pageMoveMap2();
-      } else {
+    console.log(token);
+    setTimeout(() => {
+      if (token != null) {
         this.pageMoveHome();
+      } else {
+        console.log("No token.. Move to SignIn page");
+        this.pageMoveSignIn();
       }
-    } else {
-      this.pageMoveSignIn();
-    }
+    }, 3000);
+
     return (
       <div className="splash-screen">
-        <div className="loading-dot">JR</div>
-        <h5
-          className="names"
+        <div
+          className="loader"
           style={{
-            color: "#e0455f",
+            width: "250px",
+            height: "220px",
+            textAlign: "center",
+            paddingTop: "5px",
           }}
         >
-          Saving Lives, Assuring Care
-        </h5>
+          <img
+            alt="Synk'd"
+            src={img1}
+            className="loader"
+            style={{ width: "240px", height: "210px" }}
+          ></img>
+        </div>
       </div>
     );
   }
