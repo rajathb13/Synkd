@@ -1,6 +1,8 @@
 import React from "react";
 import withSplashScreen from "./withSplashScreen";
 import img1 from "../images/synkd_logo.png";
+import { Plugins } from "@capacitor/core";
+const { SplashScreen } = Plugins;
 
 var token;
 var page;
@@ -26,6 +28,7 @@ class CheckUser extends React.Component {
   }
 
   render() {
+    SplashScreen.hide();
     console.log(token);
     setTimeout(() => {
       if (token != null) {
