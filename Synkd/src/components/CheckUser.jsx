@@ -28,7 +28,7 @@ class CheckUser extends React.Component {
   }
 
   render() {
-    SplashScreen.hide();
+    SplashScreen.hide({ fadeOutDuration: 0 });
     console.log(token);
     setTimeout(() => {
       if (token != null) {

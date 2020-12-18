@@ -19,10 +19,13 @@ import { Plugins } from "@capacitor/core";
 import "@codetrix-studio/capacitor-google-auth";
 
 var fieldTitle = "";
-var name = "";
+var gname = "";
+var fname = "";
 var userId = "";
 var fbtoken = "";
-var username = "";
+var gtoken = "";
+var SocialApp = "";
+var firstname = "";
 
 const INITIAL_STATE = {
   loggedIn: true,
@@ -34,6 +37,7 @@ class AddHomePage extends React.Component {
     super(props);
 
     this.state = {
+      name: "",
       ...INITIAL_STATE,
     };
   }
@@ -41,13 +45,28 @@ class AddHomePage extends React.Component {
   async componentDidMount() {
     fieldTitle = "Login Successful";
     this.handleToast();
-    name = JSON.parse(localStorage.getItem("Name"));
+    gname = JSON.parse(localStorage.getItem("GName"));
     userId = JSON.parse(localStorage.getItem("UserId"));
     fbtoken = JSON.parse(localStorage.getItem("fbtoken"));
-    username = JSON.parse(localStorage.getItem("username"));
+    firstname = JSON.parse(localStorage.getItem("firstname"));
+    SocialApp = JSON.parse(localStorage.getItem("SocialApp"));
+    console.log(gname);
 
-    if (!username) {
+    if (SocialApp === "Facebook") {
       this.getUserInfo();
+      fname = JSON.parse(localStorage.getItem("FName"));
+      this.setState({
+        name: fname,
+      });
+    }
+    if (SocialApp === "Google") {
+      this.setState({
+        name: gname,
+      });
+    } else {
+      this.setState({
+        name: firstname,
+      });
     }
   }
 
@@ -56,9 +75,11 @@ class AddHomePage extends React.Component {
       `https://graph.facebook.com/${userId}?fields=id,name,gender,link&type=large&access_token=${fbtoken}`
     );
     const myJson = await response.json();
+    localStorage.setItem("FName", JSON.stringify(myJson.name));
+    console.log(response);
     console.log(myJson);
     this.setState({
-      user: myJson,
+      name: myJson.name,
     });
   }
 
@@ -69,7 +90,7 @@ class AddHomePage extends React.Component {
   }
 
   render() {
-    name = JSON.parse(localStorage.getItem("Name"));
+    console.log(this.state.name);
     return (
       <IonPage className="ion_page">
         <IonHeader className="ion-no-border ion_header">
@@ -86,7 +107,9 @@ class AddHomePage extends React.Component {
             ></img>
           </IonList>
           <IonItem lines="none">
-            <IonLabel className="ion-text-wrap ion_label1">{name}</IonLabel>
+            <IonLabel className="ion-text-wrap ion_label1">
+              Hi {this.state.name}! <br /> Please choose from the below options
+            </IonLabel>
           </IonItem>
           <IonItem lines="none" className="loginbtn_item">
             <IonButton
