@@ -19,13 +19,10 @@ import { Plugins } from "@capacitor/core";
 import "@codetrix-studio/capacitor-google-auth";
 
 var fieldTitle = "";
-var gname = "";
-var fname = "";
+var name = "";
 var userId = "";
-var fbtoken = "";
-var gtoken = "";
 var SocialApp = "";
-var firstname = "";
+var token = "";
 
 const INITIAL_STATE = {
   loggedIn: true,
@@ -42,40 +39,42 @@ class AddHomePage extends React.Component {
     };
   }
 
+  CreateHomeFn() {
+    this.props.history.push({ pathname: "/NameHomePage" });
+  }
+
   async componentDidMount() {
     fieldTitle = "Login Successful";
     this.handleToast();
-    gname = JSON.parse(localStorage.getItem("GName"));
+    name = JSON.parse(localStorage.getItem("Name"));
     userId = JSON.parse(localStorage.getItem("UserId"));
-    fbtoken = JSON.parse(localStorage.getItem("fbtoken"));
-    firstname = JSON.parse(localStorage.getItem("firstname"));
+    token = JSON.parse(localStorage.getItem("token"));
     SocialApp = JSON.parse(localStorage.getItem("SocialApp"));
-    console.log(gname);
+    console.log(name);
 
     if (SocialApp === "Facebook") {
       this.getUserInfo();
-      fname = JSON.parse(localStorage.getItem("FName"));
       this.setState({
-        name: fname,
+        name: name,
       });
     }
     if (SocialApp === "Google") {
       this.setState({
-        name: gname,
+        name: name,
       });
     } else {
       this.setState({
-        name: firstname,
+        name: name,
       });
     }
   }
 
   async getUserInfo() {
     const response = await fetch(
-      `https://graph.facebook.com/${userId}?fields=id,name,gender,link&type=large&access_token=${fbtoken}`
+      `https://graph.facebook.com/${userId}?fields=id,name,gender,link&type=large&access_token=${token}`
     );
     const myJson = await response.json();
-    localStorage.setItem("FName", JSON.stringify(myJson.name));
+    localStorage.setItem("Name", JSON.stringify(myJson.name));
     console.log(response);
     console.log(myJson);
     this.setState({
@@ -93,17 +92,12 @@ class AddHomePage extends React.Component {
     console.log(this.state.name);
     return (
       <IonPage className="ion_page">
-        <IonHeader className="ion-no-border ion_header">
-          <IonToolbar>
-            <IonTitle></IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion_content">
+        <IonContent className="ion-content">
           <IonList className="ion_list">
             <img
               alt="my-img"
               className="mx-auto rounded-circle Synkd_Logo"
-              src={require("../images/limg3.png")}
+              src={require("../images/synkd_round.png")}
             ></img>
           </IonList>
           <IonItem lines="none">
@@ -114,10 +108,12 @@ class AddHomePage extends React.Component {
           <IonItem lines="none" className="loginbtn_item">
             <IonButton
               className="login_btn"
-              buttonType="button"
               shape="round"
               size="default"
               color="medium"
+              onClick={() => {
+                this.CreateHomeFn();
+              }}
             >
               Create a New Home
             </IonButton>
@@ -150,7 +146,6 @@ class AddHomePage extends React.Component {
           <IonItem lines="none" style={{ paddingTop: "2.5rem" }}>
             <IonButton
               className="login_btn"
-              buttonType="button"
               shape="round"
               size="default"
               color="medium"
@@ -163,6 +158,7 @@ class AddHomePage extends React.Component {
             onDidDismiss={() => this.handleToast()}
             message={fieldTitle}
             duration={2000}
+            keyboardClose="true"
           />
         </IonContent>
       </IonPage>

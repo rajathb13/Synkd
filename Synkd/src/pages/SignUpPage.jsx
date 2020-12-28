@@ -8,7 +8,7 @@ import {
   IonButton,
   IonToast,
 } from "@ionic/react";
-import img1 from "../images/limg3.png";
+import img1 from "../images/synkd_round.png";
 import "./SignUpPage.css";
 import React from "react";
 
@@ -97,8 +97,12 @@ class Signup extends React.Component {
           .json()
           .then((resp) => {
             if (resp.message === "Registration Successful") {
-              let obj = this.state.firstname;
-              localStorage.setItem("firstname", JSON.stringify(obj));
+              //let obj = this.state.firstname;
+              console.log(this.state.firstname);
+              localStorage.setItem(
+                "Name",
+                JSON.stringify(this.state.firstname)
+              );
               this.props.history.push({ pathname: "/LoginPage" });
               this.refreshPage();
             } else {
@@ -116,7 +120,7 @@ class Signup extends React.Component {
   render() {
     return (
       <IonPage>
-        <IonContent className="ion_content">
+        <IonContent className="ion-content">
           <IonList className="ion_list">
             <img
               alt="imagelogo"
@@ -128,11 +132,9 @@ class Signup extends React.Component {
             <IonInput
               className="ion_input1"
               placeholder="First name"
-              type="stacked"
               inputMode="text"
               maxlength="70"
               required="true"
-              mode="md"
               value={this.state.firstname}
               onIonChange={(data) => {
                 this.setState({ firstname: data.target.value });
@@ -143,11 +145,9 @@ class Signup extends React.Component {
             <IonInput
               className="ion_input1"
               placeholder="Last name"
-              type="text"
               inputMode="email"
               maxlength="70"
               required="true"
-              mode="md"
               value={this.state.lastname}
               onIonChange={(data) => {
                 this.setState({ lastname: data.target.value });
@@ -162,7 +162,6 @@ class Signup extends React.Component {
               inputMode="email"
               maxlength="70"
               required="true"
-              mode="md"
               value={this.state.username}
               onIonChange={(data) => {
                 this.setState({ username: data.target.value });
@@ -177,7 +176,6 @@ class Signup extends React.Component {
               inputMode="email"
               maxlength="70"
               required="true"
-              mode="md"
               value={this.state.password}
               onIonChange={(data) => {
                 this.setState({ password: data.target.value });
@@ -192,7 +190,6 @@ class Signup extends React.Component {
               inputMode="email"
               maxlength="70"
               required="true"
-              mode="md"
               value={this.state.cpassword}
               onIonChange={(data) => {
                 this.setState({ cpassword: data.target.value });

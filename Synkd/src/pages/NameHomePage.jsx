@@ -10,6 +10,7 @@ import {
   IonToast,
 } from "@ionic/react";
 import "./LoginPage.css";
+import { withRouter } from "react-router-dom";
 
 var fieldTitle = "";
 
@@ -34,14 +35,14 @@ class NameHomePage extends React.Component {
       fieldTitle = "Home Name cannot be empty";
       this.handleToast();
     } else {
-      this.props.history.push({ pathname: "/HomePage" });
+      this.props.history.push({ pathname: "/EHomePage" });
     }
   }
 
   render() {
     return (
       <IonPage>
-        <IonContent className="ion_content">
+        <IonContent className="ion-content">
           <IonItem lines="none" className="home_name">
             <IonLabel className="ion-text-wrap ion_label1">
               Let's give your new home a name !
@@ -86,4 +87,4 @@ class NameHomePage extends React.Component {
   }
 }
 
-export default NameHomePage;
+export default withRouter(NameHomePage);
