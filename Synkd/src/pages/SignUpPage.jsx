@@ -97,9 +97,9 @@ class Signup extends React.Component {
           .json()
           .then((resp) => {
             if (resp.message === "Registration Successful") {
-              let obj = this.state.username;
-              localStorage.setItem("username", JSON.stringify(obj));
-              this.props.history.push({ pathname: "/AddHomePage" });
+              let obj = this.state.firstname;
+              localStorage.setItem("firstname", JSON.stringify(obj));
+              this.props.history.push({ pathname: "/LoginPage" });
               this.refreshPage();
             } else {
               fieldTitle = "Registration Unsuccessful";

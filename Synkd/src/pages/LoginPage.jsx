@@ -21,6 +21,9 @@ import { Plugins } from "@capacitor/core";
 import "@codetrix-studio/capacitor-google-auth";
 
 var fieldTitle = "";
+var app1 = "Facebook";
+var app2 = "Google";
+var username = "";
 
 const INITIAL_STATE = {
   loggedIn: false,
@@ -46,16 +49,18 @@ class LoginPage extends React.Component {
     };
   }
 
-  responseFacebook = (response) => {
-    console.log(response);
-  };
-
-  componentClicked = () => console.log("clicked");
-
   handleToast() {
     this.setState({
       show: !this.state.show,
     });
+  }
+
+  componentDidMount() {
+    username = JSON.parse(localStorage.getItem("username"));
+    if (username) {
+      fieldTitle = "Login with your registered Email ID";
+      this.handleToast();
+    }
   }
 
   refreshPage() {
@@ -80,7 +85,8 @@ class LoginPage extends React.Component {
     if (result && result.accessToken) {
       console.info("token", result.accessToken);
       localStorage.setItem("UserId", JSON.stringify(result.accessToken.userId));
-      localStorage.setItem("fbtoken", JSON.stringify(result.accessToken.token));
+      localStorage.setItem("token", JSON.stringify(result.accessToken.token));
+      localStorage.setItem("SocialApp", JSON.stringify(app1));
       this.props.history.push({
         pathname: "/AddHomePage",
         state: {
@@ -93,28 +99,19 @@ class LoginPage extends React.Component {
     console.log(result);
   }
 
-  async getCurrentState() {
-    const result = await Plugins.FacebookLogin.getCurrentAccessToken();
-
-    try {
-      console.log(result);
-      return result && result.accessToken;
-    } catch (e) {
-      return false;
-    }
-  }
-
   async GsignIn() {
     const result = await Plugins.GoogleAuth.signIn();
     console.info("result", result);
+    localStorage.setItem("GName", JSON.stringify(result.displayName));
+    localStorage.setItem(
+      "token",
+      JSON.stringify(result.authentication.idToken)
+    );
+    localStorage.setItem("SocialApp", JSON.stringify(app2));
     if (result) {
       this.props.history.push({ pathname: "/AddHomePage" });
     }
-    localStorage.setItem("Name", JSON.stringify(result.displayName));
-    localStorage.setItem(
-      "Gtokens",
-      JSON.stringify(result.authentication.idToken)
-    );
+
     console.log(this.state);
   }
 
