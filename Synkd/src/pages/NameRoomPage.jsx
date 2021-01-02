@@ -17,14 +17,33 @@ import { FaShower } from "react-icons/fa";
 import "./LoginPage.css";
 
 var fieldTitle = "";
+var iname = "";
+var iconname = "";
+var auth_token;
 
 class NameRoom extends React.Component {
   constructor(props) {
     super(props);
-
+    auth_token = JSON.parse(localStorage.getItem("token"));
     this.state = {
       roomname: "",
+      homeid: "",
     };
+  }
+
+  componentDidMount() {
+    iname = JSON.parse(localStorage.getItem("Ricon"));
+    if (iname === "bed") {
+      iname = bedSharp;
+    }
+    if (iname === "kitchen") {
+      iname = fastFoodOutline;
+    }
+    if (iname === "shower") {
+      iname = FaShower;
+    }
+    var homeid1 = JSON.parse(localStorage.getItem("homeid"));
+    this.setState({ homeid: homeid1 });
   }
 
   nextfn() {
@@ -32,7 +51,38 @@ class NameRoom extends React.Component {
       fieldTitle = "Please enter a Room Name";
       this.handleToast();
     } else {
-      this.props.history.push({ pathname: "/PHomePage" });
+      var data = this.state;
+      fetch("https://clickademy.in/room/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth_token,
+        },
+        body: JSON.stringify(data),
+      }).then((result) => {
+        result
+          .json()
+          .then((resp) => {
+            if (resp.homename) {
+              /*On success, setting the homeid in the local storage*/
+              //let obj = resp.;
+              //localStorage.setItem("homeid", JSON.stringify(obj));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              console.log(resp);
+              this.props.history.push({ pathname: "/PHomePage" });
+            } else {
+              fieldTitle = "Home not created";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("Home not created", error);
+          });
+      });
     }
   }
 
@@ -63,7 +113,7 @@ class NameRoom extends React.Component {
                   color="medium"
                 >
                   <IonIcon
-                    icon={bedSharp}
+                    icon={iname}
                     size="large"
                     className="io-icon"
                   ></IonIcon>

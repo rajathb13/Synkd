@@ -19,6 +19,7 @@ import fbimg from "../images/fb3.png";
 import gimg from "../images/g3.png";
 import { Plugins } from "@capacitor/core";
 import "@codetrix-studio/capacitor-google-auth";
+import { withRouter } from "react-router";
 
 var fieldTitle = "";
 var app1 = "Facebook";
@@ -148,8 +149,8 @@ class LoginPage extends React.Component {
           .then((resp) => {
             if (resp.message === "Authentication Successful") {
               /*On success, setting the user name in the local storage*/
-              //let obj = this.state.displayname;
-              //localStorage.setItem("username", JSON.stringify(obj));
+              let obj = this.state.username;
+              localStorage.setItem("username", JSON.stringify(obj));
               localStorage.setItem("token", JSON.stringify(resp.token));
               // if (resp.homeid != null) {
               //   this.props.history.push({ pathname: "/EHomePage" });
@@ -289,4 +290,4 @@ class LoginPage extends React.Component {
   }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

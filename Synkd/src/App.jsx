@@ -28,6 +28,7 @@ import RoomIcon from "./pages/RoomIconPage";
 import NameRoom from "./pages/NameRoomPage";
 import Footer from "./pages/Footer";
 import Logout from "./pages/Logout";
+import SelectDevice from "./pages/SelectDevice";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -100,6 +101,11 @@ class App extends React.Component {
               <Route path="/RoomIcon" component={RoomIcon} exact={true} />
               <Route path="/NameRoom" component={NameRoom} exact={true} />
               <Route path="/Footer" component={Footer} exact={true} />
+              <Route
+                path="/SelectDevice"
+                component={SelectDevice}
+                exact={true}
+              />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>

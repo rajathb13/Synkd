@@ -8,13 +8,23 @@ import {
   IonRow,
 } from "@ionic/react";
 import React from "react";
-import { bedSharp, fastFoodOutline, logoAndroid } from "ionicons/icons";
+import { bedSharp, fastFoodOutline, maleFemaleOutline } from "ionicons/icons";
 import { FaShower } from "react-icons/fa";
+import { GiKnifeFork } from "react-icons/gi";
 import "./LoginPage.css";
 import { withRouter } from "react-router-dom";
 
 class RoomIcon extends React.Component {
-  nextfn() {
+  bedfn() {
+    localStorage.setItem("Ricon", JSON.stringify("bed"));
+    this.props.history.push({ pathname: "/NameRoom" });
+  }
+  kitchenfn() {
+    localStorage.setItem("Ricon", JSON.stringify("kitchen"));
+    this.props.history.push({ pathname: "/NameRoom" });
+  }
+  showerfn() {
+    localStorage.setItem("Ricon", JSON.stringify("shower"));
     this.props.history.push({ pathname: "/NameRoom" });
   }
 
@@ -32,7 +42,7 @@ class RoomIcon extends React.Component {
                 size="large"
                 expand="block"
                 color="medium"
-                onClick={() => this.nextfn()}
+                onClick={() => this.bedfn()}
               >
                 <IonIcon
                   icon={bedSharp}
@@ -50,16 +60,15 @@ class RoomIcon extends React.Component {
                 size="large"
                 expand="block"
                 color="medium"
-                onClick={() => this.nextfn()}
+                onClick={() => this.kitchenfn()}
               >
                 <IonIcon
                   icon={fastFoodOutline}
                   size="large"
                   className="io-icon"
-                >
-                  <IonLabel>Bedroom</IonLabel>
-                </IonIcon>
+                ></IonIcon>
               </IonButton>
+              <IonLabel>Kitchen</IonLabel>
             </IonCol>
             <IonCol className="icon-col">
               <IonButton
@@ -69,10 +78,15 @@ class RoomIcon extends React.Component {
                 size="large"
                 expand="block"
                 color="medium"
-                onClick={() => this.nextfn()}
+                onClick={() => this.showerfn()}
               >
-                <FaShower className="shower-icon" />
+                <IonIcon
+                  icon={maleFemaleOutline}
+                  size="large"
+                  className="io-icon"
+                />
               </IonButton>
+              <IonLabel>Bathroom</IonLabel>
             </IonCol>
           </IonRow>
           <IonRow>

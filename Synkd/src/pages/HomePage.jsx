@@ -1,10 +1,10 @@
 import {
   IonContent,
   IonPage,
-  IonTabs,
+  IonRow,
   IonIcon,
-  IonButtons,
-  IonMenuButton,
+  IonGrid,
+  IonCol,
   IonInput,
   IonItem,
   IonTitle,
@@ -17,40 +17,25 @@ import {
   IonLabel,
   IonSegment,
 } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
-import { Route } from "react-router-dom";
 import React from "react";
 import "./LoginPage.css";
-
-import {
-  home,
-  peopleCircleOutline,
-  logoAndroid,
-  addCircle,
-} from "ionicons/icons";
+import { addCircle } from "ionicons/icons";
 import SideMenuPage from "./SideMenuPage";
-import Footer from "./Footer";
 import SF from "./SF";
-import { setupConfig } from "@ionic/react";
 
 const contentStyle = {
-  display: "flex",
-  height: "90%",
-
+  height: "300px",
   justifyContent: "center",
-  fontSize: "60px",
+  width: "300px",
 };
 
 class Homepage extends React.Component {
   async componentDidMount() {
     localStorage.setItem("UPage", JSON.stringify("/EHomePage"));
-    setupConfig({
-      hardwareBackButton: false,
-    });
   }
 
   IconFn() {
-    this.props.history.push({ pathname: "/RoomIcon" });
+    this.props.history.push({ pathname: "/SelectDevice" });
   }
 
   nextfn() {
@@ -68,28 +53,29 @@ class Homepage extends React.Component {
     return (
       <IonPage>
         <SideMenuPage />
-        <IonContent>
-          <IonItem
-            className="ion-justify-content-center"
-            style={{ alignItem: "center" }}
-            lines="none"
+        <div
+          style={{
+            margin: "auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "200px",
+          }}
+        >
+          <IonButton
+            style={contentStyle}
+            fill="clear"
+            onClick={() => {
+              this.IconFn();
+            }}
           >
-            <IonButton
-              style={contentStyle}
-              icon-only
-              fill="clear"
-              onClick={() => {
-                this.IconFn();
-              }}
-            >
-              <IonIcon
-                color="dark"
-                style={{ fontSize: "100px" }}
-                icon={addCircle}
-              ></IonIcon>
-            </IonButton>
-          </IonItem>
-        </IonContent>
+            <IonIcon
+              color="dark"
+              style={{ fontSize: "150px" }}
+              icon={addCircle}
+            ></IonIcon>
+          </IonButton>
+        </div>
         <SF />
       </IonPage>
     );

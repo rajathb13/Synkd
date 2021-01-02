@@ -21,8 +21,9 @@ class Settings extends React.Component {
 
     this.state = {
       oldpassword: "",
-      password: "",
+      newpassword: "",
       cpassword: "",
+      username: "",
     };
   }
 
@@ -35,19 +36,53 @@ class Settings extends React.Component {
   NextFn() {
     if (
       !this.state.oldpassword &&
-      !this.state.password &&
+      !this.state.newpassword &&
       !this.state.cpassword
     ) {
       fieldTitle = "All fields are required";
       this.handleToast();
     } else {
-      if (this.state.cpassword !== this.state.password) {
+      if (this.state.cpassword !== this.state.newpassword) {
         var presult = false;
         fieldTitle = "Passwords do not match";
         this.handleToast();
       } else {
         presult = true;
       }
+    }
+    var data = this.state;
+    if (presult === true) {
+      fetch("https://clickademy.in/user/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((result) => {
+        result
+          .json()
+          .then((resp) => {
+            if (resp.message === "Authentication Successful") {
+              /*On success, setting the user name in the local storage*/
+              //let obj = this.state.displayname;
+              //localStorage.setItem("username", JSON.stringify(obj));
+              localStorage.setItem("token", JSON.stringify(resp.token));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              this.props.history.push({ pathname: "/AddHomePage" });
+              this.refreshPage();
+            } else {
+              fieldTitle = "Email ID or Pasword is wrong";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("Invalid email or Wrong Password", error);
+          });
+      });
     }
   }
 
@@ -104,7 +139,7 @@ class Settings extends React.Component {
               }}
             ></IonInput>
           </IonItem>
-          <IonItem lines="none" className="button_ion">
+          <IonItem lines="none" style={{ paddingTop: "2rem" }}>
             <IonButton
               className="button_con"
               buttonType="button"

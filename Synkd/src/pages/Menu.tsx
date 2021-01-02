@@ -14,6 +14,7 @@ import {useLocation} from 'react-router-dom';
 import { helpCircleSharp, homeOutline, homeSharp, logOutOutline, peopleSharp, personCircleOutline, phonePortraitSharp, settingsOutline } from "ionicons/icons";
 import Logout from "./Logout"
 import { Plugins } from "@capacitor/core";
+import "@codetrix-studio/capacitor-google-auth";
 
 
 
@@ -76,6 +77,7 @@ const Menu : React.FC = () =>
     window.localStorage.clear();
     window.location.href = "/CheckUser";
   } else if (sapp === "Google") {
+    Plugins.GoogleAuth.signOut();
     window.localStorage.clear();
     window.location.href = "/CheckUser";
   } else {
@@ -84,7 +86,10 @@ const Menu : React.FC = () =>
   }
  }; 
  
- 
+ const namefn = () =>{
+  var name = localStorage.getItem("Name")
+  return name
+ }
 
   return (
       <IonMenu
@@ -97,7 +102,7 @@ const Menu : React.FC = () =>
           <IonList className="ion_list">
             <img  alt="imagelogo" className="mx-auto rounded-circle Synkd_Logo" src={img1}></img>
             </IonList>
-            <h6 className="Name">Name</h6>
+            <h6 className="Name">{namefn()}</h6>
             {appPages.map((appPage, index) => {
                         return (
                             <IonMenuToggle key={index} autoHide={false}>

@@ -1,5 +1,6 @@
 import React from "react";
 import "./LoginPage.css";
+import { withRouter } from "react-router";
 import {
   IonContent,
   IonHeader,
@@ -34,9 +35,12 @@ class AddHomePage extends React.Component {
     super(props);
 
     this.state = {
-      name: "",
+      homename: "",
       ...INITIAL_STATE,
     };
+
+    this.currentPathname = null;
+    this.currentSearch = null;
   }
 
   CreateHomeFn() {
@@ -67,6 +71,30 @@ class AddHomePage extends React.Component {
         name: name,
       });
     }
+
+    const { history } = this.props;
+
+    history.listen((newLocation, action) => {
+      if (action === "PUSH") {
+        if (
+          newLocation.pathname !== this.currentPathname ||
+          newLocation.search !== this.currentSearch
+        ) {
+          // Save new location
+          this.currentPathname = newLocation.pathname;
+          this.currentSearch = newLocation.search;
+
+          // Clone location object and push it to history
+          history.push({
+            pathname: newLocation.pathname,
+            search: newLocation.search,
+          });
+        }
+      } else {
+        // Send user back if they try to navigate back
+        history.go(1);
+      }
+    });
   }
 
   async getUserInfo() {
@@ -166,4 +194,4 @@ class AddHomePage extends React.Component {
   }
 }
 
-export default AddHomePage;
+export default withRouter(AddHomePage);
