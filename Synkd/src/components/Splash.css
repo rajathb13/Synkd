@@ -16,7 +16,7 @@
 
 .loader {
   background-color: rgba(21, 24, 35, 0.7);
-  border-radius: 90%;
+
   box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3);
   background: linear-gradient(90deg, #99c05a, #83da58, #1ac77f, #238a81);
   background-size: 200% 200%;

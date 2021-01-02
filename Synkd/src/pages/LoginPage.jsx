@@ -14,11 +14,12 @@ import {
 } from "@ionic/react";
 import React from "react";
 import "./LoginPage.css";
-import img1 from "../images/limg3.png";
+import img1 from "../images/synkd_round.png";
 import fbimg from "../images/fb3.png";
 import gimg from "../images/g3.png";
 import { Plugins } from "@capacitor/core";
 import "@codetrix-studio/capacitor-google-auth";
+import { withRouter } from "react-router";
 
 var fieldTitle = "";
 var app1 = "Facebook";
@@ -56,7 +57,7 @@ class LoginPage extends React.Component {
   }
 
   componentDidMount() {
-    username = JSON.parse(localStorage.getItem("username"));
+    username = JSON.parse(localStorage.getItem("Name"));
     if (username) {
       fieldTitle = "Login with your registered Email ID";
       this.handleToast();
@@ -69,10 +70,6 @@ class LoginPage extends React.Component {
 
   SignUpFn() {
     this.props.history.push({ pathname: "/RegisterPage" });
-  }
-
-  async FbSignOut() {
-    await Plugins.FacebookLogin.logout();
   }
 
   async fbSignIin() {
@@ -102,7 +99,7 @@ class LoginPage extends React.Component {
   async GsignIn() {
     const result = await Plugins.GoogleAuth.signIn();
     console.info("result", result);
-    localStorage.setItem("GName", JSON.stringify(result.displayName));
+    localStorage.setItem("Name", JSON.stringify(result.displayName));
     localStorage.setItem(
       "token",
       JSON.stringify(result.authentication.idToken)
@@ -151,12 +148,12 @@ class LoginPage extends React.Component {
           .json()
           .then((resp) => {
             if (resp.message === "Authentication Successful") {
-              /*On success, setting the user phone in the local storage*/
+              /*On success, setting the user name in the local storage*/
               let obj = this.state.username;
               localStorage.setItem("username", JSON.stringify(obj));
               localStorage.setItem("token", JSON.stringify(resp.token));
               // if (resp.homeid != null) {
-              //   this.props.history.push({ pathname: "/HomePage" });
+              //   this.props.history.push({ pathname: "/EHomePage" });
               // } else {
               //   this.props.history.push({ pathname: "/AddHomePage" });
               // }
@@ -177,7 +174,7 @@ class LoginPage extends React.Component {
   render() {
     return (
       <IonPage className="ion_page">
-        <IonContent className="ion_content">
+        <IonContent className="ion-content">
           <IonList className="ion_list">
             <img
               alt="my-img"
@@ -190,11 +187,9 @@ class LoginPage extends React.Component {
               <IonInput
                 className="ion_input1"
                 placeholder="Email ID"
-                type="stacked"
                 inputMode="email"
                 maxlength="70"
                 required="true"
-                mode="md"
                 value={this.state.username}
                 onIonChange={(data) => {
                   this.setState({ username: data.target.value });
@@ -295,4 +290,4 @@ class LoginPage extends React.Component {
   }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

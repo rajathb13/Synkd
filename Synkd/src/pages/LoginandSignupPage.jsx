@@ -14,7 +14,7 @@ import {
   IonIcon,
 } from "@ionic/react";
 import React from "react";
-import img1 from "../images/limg3.png";
+import img1 from "../images/synkd_round.png";
 import "./LoginPage.css";
 
 class Home extends React.Component {

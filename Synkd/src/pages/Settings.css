@@ -1,0 +1,40 @@
+.grid_mod {
+  padding-top: 3rem;
+  padding-left: 3rem;
+}
+
+.userrow {
+  padding-left: 0.5rem;
+}
+
+input {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-radius: 25px;
+  width: 80%;
+}
+
+.button-ion-set {
+  padding-top: 2rem !important;
+}
+
+.button_con {
+  width: 15rem;
+  height: 30px;
+  margin-left: auto;
+  margin-right: 80px;
+}
+
+.row_space {
+  padding-top: 20px;
+}
+
+.footer {
+  padding-top: 7rem;
+}
+
+.footer_title {
+  font-size: 15px;
+  padding-left: 7rem;
+  color: black;
+}

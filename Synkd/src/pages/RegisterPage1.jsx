@@ -94,12 +94,12 @@ class RegisterPage1 extends React.Component {
   render() {
     return (
       <IonPage className="ion_page">
-        <IonContent className="ion_content">
+        <IonContent className="ion-content">
           <IonList className="ion_list">
             <img
               alt="my-img"
               className="mx-auto rounded-circle Synkd_Logo"
-              src={require("../images/limg3.png")}
+              src={require("../images/synkd_round.png")}
             ></img>
           </IonList>
           <IonItem lines="none" className="loginbtn_item">

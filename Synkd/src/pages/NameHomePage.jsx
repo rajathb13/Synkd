@@ -10,13 +10,15 @@ import {
   IonToast,
 } from "@ionic/react";
 import "./LoginPage.css";
+import { withRouter } from "react-router-dom";
 
 var fieldTitle = "";
+var auth_token;
 
 class NameHomePage extends React.Component {
   constructor(props) {
     super(props);
-
+    auth_token = JSON.parse(localStorage.getItem("token"));
     this.state = {
       homename: "",
     };
@@ -30,18 +32,49 @@ class NameHomePage extends React.Component {
 
   onSubmit() {
     let data = this.state;
+    console.log(data);
     if (!this.state.homename) {
       fieldTitle = "Home Name cannot be empty";
       this.handleToast();
     } else {
-      this.props.history.push({ pathname: "/HomePage" });
+      fetch("https://clickademy.in/home/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth_token,
+        },
+        body: JSON.stringify(data),
+      }).then((result) => {
+        result
+          .json()
+          .then((resp) => {
+            if (resp.createdHome._id) {
+              /*On success, setting the homeid in the local storage*/
+              let obj = resp.createdHome._id;
+              localStorage.setItem("homeid", JSON.stringify(obj));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              console.log(resp.createdHome._id);
+              this.props.history.push({ pathname: "/EHomePage" });
+            } else {
+              fieldTitle = "Home not created";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("Home not created", error);
+          });
+      });
     }
   }
 
   render() {
     return (
       <IonPage>
-        <IonContent className="ion_content">
+        <IonContent className="ion-content">
           <IonItem lines="none" className="home_name">
             <IonLabel className="ion-text-wrap ion_label1">
               Let's give your new home a name !
@@ -86,4 +119,4 @@ class NameHomePage extends React.Component {
   }
 }
 
-export default NameHomePage;
+export default withRouter(NameHomePage);
