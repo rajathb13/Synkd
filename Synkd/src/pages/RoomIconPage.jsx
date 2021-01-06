@@ -16,15 +16,15 @@ import { withRouter } from "react-router-dom";
 
 class RoomIcon extends React.Component {
   bedfn() {
-    localStorage.setItem("Ricon", JSON.stringify("bed"));
+    localStorage.setItem("Ricon", JSON.stringify("bedSharp"));
     this.props.history.push({ pathname: "/NameRoom" });
   }
   kitchenfn() {
-    localStorage.setItem("Ricon", JSON.stringify("kitchen"));
+    localStorage.setItem("Ricon", JSON.stringify("fastFoodOutline"));
     this.props.history.push({ pathname: "/NameRoom" });
   }
   showerfn() {
-    localStorage.setItem("Ricon", JSON.stringify("shower"));
+    localStorage.setItem("Ricon", JSON.stringify("maleFemaleOutline"));
     this.props.history.push({ pathname: "/NameRoom" });
   }
 

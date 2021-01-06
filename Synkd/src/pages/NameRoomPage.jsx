@@ -12,8 +12,7 @@ import {
   IonToast,
 } from "@ionic/react";
 import React from "react";
-import { bedSharp, fastFoodOutline, logoAndroid } from "ionicons/icons";
-import { FaShower } from "react-icons/fa";
+import { bedSharp, fastFoodOutline, maleFemaleOutline } from "ionicons/icons";
 import "./LoginPage.css";
 
 var fieldTitle = "";
@@ -28,22 +27,24 @@ class NameRoom extends React.Component {
     this.state = {
       roomname: "",
       homeid: "",
+      iconname: "",
     };
   }
 
   componentDidMount() {
     iname = JSON.parse(localStorage.getItem("Ricon"));
-    if (iname === "bed") {
+    if (iname === "bedSharp") {
       iname = bedSharp;
     }
-    if (iname === "kitchen") {
+    if (iname === "fastFoodOutline") {
       iname = fastFoodOutline;
     }
-    if (iname === "shower") {
-      iname = FaShower;
+    if (iname === "maleFemaleOutline") {
+      iname = maleFemaleOutline;
     }
     var homeid1 = JSON.parse(localStorage.getItem("homeid"));
     this.setState({ homeid: homeid1 });
+    this.setState({ iconname: iname });
   }
 
   nextfn() {
@@ -101,26 +102,25 @@ class NameRoom extends React.Component {
               Let's give your new home a name !
             </IonLabel>
           </IonItem>
-          <IonGrid style={{ alignItems: "center" }}>
-            <IonRow style={{ alignItems: "center" }}>
-              <IonCol className="rn-col">
-                <IonButton
-                  fill="solid"
-                  className="icon-btn ion-no-padding"
-                  shape="round"
-                  size="large"
-                  expand="block"
-                  color="medium"
-                >
-                  <IonIcon
-                    icon={iname}
-                    size="large"
-                    className="io-icon"
-                  ></IonIcon>
-                </IonButton>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+          <div
+            style={{
+              display: "flex",
+              paddingTop: "2rem",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <IonButton
+              fill="solid"
+              className="icon-btn ion-no-padding"
+              shape="round"
+              size="large"
+              expand="block"
+              color="medium"
+            >
+              <IonIcon icon={iname} size="large" className="io-icon"></IonIcon>
+            </IonButton>
+          </div>
           <IonItem className="rn-item">
             <IonInput
               className="rn-input"
