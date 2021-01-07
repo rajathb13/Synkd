@@ -1,37 +1,38 @@
 import {
   IonContent,
   IonPage,
-  IonTabs,
+  IonGrid,
   IonIcon,
-  IonButtons,
-  IonMenuButton,
-  IonInput,
-  IonItem,
-  IonTitle,
-  IonToolbar,
-  IonFooter,
+  IonRow,
+  IonCol,
   IonButton,
-  IonHeader,
-  IonTabBar,
-  IonTabButton,
   IonLabel,
-  IonRouterOutlet,
+  IonItem,
+  IonFooter,
+  IonToolbar,
+  IonTitle,
 } from "@ionic/react";
-import axios from "axios";
-import { IonReactRouter } from "@ionic/react-router";
-import { Route } from "react-router-dom";
 import React from "react";
 import "./LoginPage.css";
-import rjson from "./rooms.json";
-import { home, peopleCircleOutline, logoAndroid } from "ionicons/icons";
+import {
+  bedSharp,
+  fastFoodOutline,
+  maleFemaleOutline,
+  addCircle,
+} from "ionicons/icons";
 import SideMenuPage from "./SideMenuPage";
-import { setupConfig } from "@ionic/react";
 import SF from "./SF";
 
 var data_list = [];
 var objData;
 var auth_token;
 var fieldTitle = "";
+
+const contentStyle = {
+  height: "90px",
+  justifyContent: "center",
+  width: "90px",
+};
 
 class PHomepage extends React.Component {
   constructor(props) {
@@ -49,6 +50,13 @@ class PHomepage extends React.Component {
     localStorage.setItem("UPage", JSON.stringify("/PHomePage"));
     var homeid1 = JSON.parse(localStorage.getItem("homeid"));
     this.setState({ homeid: homeid1 });
+    setTimeout(() => {
+      this.getRoomInfo();
+    }, 1000);
+  }
+
+  NewRoomFn() {
+    this.props.history.push({ pathname: "/RoomIcon" });
   }
 
   getRoomInfo() {
@@ -66,6 +74,7 @@ class PHomepage extends React.Component {
         .json()
         .then((resp) => {
           if (resp) {
+            this.setState({ items: resp.rooms });
             /*On success, setting the homeid in the local storage*/
             //let obj = resp.createdHome._id;
             //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -75,6 +84,7 @@ class PHomepage extends React.Component {
             //   this.props.history.push({ pathname: "/AddHomePage" });
             // }
             console.log(resp);
+
             // this.props.history.push({ pathname: "/PHomePage" });
           } else {
             fieldTitle = "Home not created";
@@ -91,22 +101,51 @@ class PHomepage extends React.Component {
     return (
       <IonPage>
         <SideMenuPage />
-        <IonContent>
-          <IonItem lines="none" className="loginbtn_item">
-            <IonButton
-              className="login_btn"
-              buttonType="button"
-              shape="round"
-              size="default"
-              color="medium"
-              onClick={() => {
-                this.getRoomInfo();
-              }}
-            >
-              Login
-            </IonButton>
-          </IonItem>
+        <IonContent slot="fixed">
+          <IonGrid className="phome-grid">
+            <IonRow className="phome-row">
+              {this.state.items.map((item, index) => {
+                return (
+                  <IonCol className="phome-col ion-align-self-center" size="4">
+                    <IonButton
+                      fill="solid"
+                      className="icon-btn ion-no-padding"
+                      shape="round"
+                      size="large"
+                      expand="block"
+                      color="medium"
+                    >
+                      <IonIcon
+                        icon={bedSharp}
+                        size="large"
+                        className="io-icon"
+                      ></IonIcon>
+                    </IonButton>
+                    <br />
+                    <IonLabel className="icon_label1">{item.roomname}</IonLabel>
+                  </IonCol>
+                );
+              })}
+            </IonRow>
+          </IonGrid>
+          <IonItem lines="none" className="ion-float-right"></IonItem>
         </IonContent>
+        <IonFooter className="ion-no-border" style={{ textAlign: "end" }}>
+          <IonButton
+            mode="md"
+            style={contentStyle}
+            fill="clear"
+            onClick={() => {
+              this.NewRoomFn();
+            }}
+          >
+            <IonIcon
+              color="dark"
+              style={{ fontSize: "150px" }}
+              icon={addCircle}
+            ></IonIcon>
+          </IonButton>
+        </IonFooter>
         <SF />
       </IonPage>
     );
@@ -114,3 +153,13 @@ class PHomepage extends React.Component {
 }
 
 export default PHomepage;
+
+/* 
+<IonGrid>
+            <IonRow>
+              <IonCol>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+
+*/

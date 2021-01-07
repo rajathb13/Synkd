@@ -196,10 +196,15 @@ class Signup extends React.Component {
               }}
             ></IonInput>
           </IonItem>
-          <IonItem lines="none" className="button_ion">
+          <div
+            style={{
+              paddingTop: "1.5rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <IonButton
-              className="button_con"
-              buttonType="button"
               shape="round"
               size="default"
               color="dark"
@@ -209,7 +214,7 @@ class Signup extends React.Component {
             >
               Sign Up
             </IonButton>
-          </IonItem>
+          </div>
           <IonItem lines="none" className="ion_item">
             <IonTitle
               className="footer_title"

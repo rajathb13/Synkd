@@ -27,8 +27,8 @@ import PHomepage from "./pages/PHomePage";
 import RoomIcon from "./pages/RoomIconPage";
 import NameRoom from "./pages/NameRoomPage";
 import Footer from "./pages/Footer";
-import Logout from "./pages/Logout";
 import SelectDevice from "./pages/SelectDevice";
+import ChipSetup from "./pages/ChipSetup";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -106,6 +106,7 @@ class App extends React.Component {
                 component={SelectDevice}
                 exact={true}
               />
+              <Route path="/ChipSetup" component={ChipSetup} exact={true} />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>

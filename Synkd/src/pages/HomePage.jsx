@@ -35,7 +35,7 @@ class Homepage extends React.Component {
   }
 
   IconFn() {
-    this.props.history.push({ pathname: "/SelectDevice" });
+    this.props.history.push({ pathname: "/RoomIcon" });
   }
 
   nextfn() {
