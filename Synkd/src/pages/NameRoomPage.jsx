@@ -99,7 +99,7 @@ class NameRoom extends React.Component {
         <IonContent className="ion-content">
           <IonItem lines="none" className="room_name">
             <IonLabel className="ion-text-wrap ion_label1">
-              Let's give your new home a name !
+              Let's give your new room a name !
             </IonLabel>
           </IonItem>
           <div
