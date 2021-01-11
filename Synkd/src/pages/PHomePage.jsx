@@ -55,6 +55,12 @@ class PHomepage extends React.Component {
     }, 1000);
   }
 
+  handleToast() {
+    this.setState({
+      show: !this.state.show,
+    });
+  }
+
   NewRoomFn() {
     this.props.history.push({ pathname: "/RoomIcon" });
   }

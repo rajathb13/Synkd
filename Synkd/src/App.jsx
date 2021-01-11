@@ -29,6 +29,8 @@ import NameRoom from "./pages/NameRoomPage";
 import Footer from "./pages/Footer";
 import SelectDevice from "./pages/SelectDevice";
 import ChipSetup from "./pages/ChipSetup";
+import BuilderChipWifi from "./pages/BuilderChipWifi";
+import ChipLoad from "./pages/ChipLoad";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -107,6 +109,12 @@ class App extends React.Component {
                 exact={true}
               />
               <Route path="/ChipSetup" component={ChipSetup} exact={true} />
+              <Route
+                path="/BuilderChipWifi"
+                component={BuilderChipWifi}
+                exact={true}
+              />
+              <Route path="/ChipLoad" component={ChipLoad} exact={true} />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>

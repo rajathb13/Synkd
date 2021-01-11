@@ -1,12 +1,12 @@
 import {
   IonContent,
   IonPage,
-  IonGrid,
+  IonToast,
   IonIcon,
   IonRow,
   IonCol,
   IonButton,
-  IonLabel,
+  IonInput,
   IonItem,
   IonSegmentButton,
   IonSegment,
@@ -16,15 +16,7 @@ import {
   IonNote,
   IonTextarea,
 } from "@ionic/react";
-import {
-  home,
-  peopleCircleOutline,
-  logoAndroid,
-  bedSharp,
-  fastFoodOutline,
-  addCircleOutline,
-  addCircle,
-} from "ionicons/icons";
+import { hardwareChip, addCircle } from "ionicons/icons";
 import React from "react";
 import "./LoginPage.css";
 import Modal from "simple-react-modal";
@@ -45,16 +37,33 @@ const test = {
   background: "rgb(255, 255, 255)",
 };
 
+var fieldTitle = "";
+
 class ChipSetup extends React.Component {
   constructor() {
     super();
     this.state = {
-      lname: "",
+      chipname: "",
     };
     this.close = this.close.bind(this);
   }
   show() {
     this.setState({ show: true });
+  }
+
+  handleToast() {
+    this.setState({
+      tshow: !this.state.tshow,
+    });
+  }
+
+  NextFn() {
+    if (!this.state.chipname) {
+      fieldTitle = "Please enter Chip Name";
+      this.handleToast();
+    } else {
+      this.props.history.push({ pathname: "/ChipLoad" });
+    }
   }
 
   close() {
@@ -70,164 +79,81 @@ class ChipSetup extends React.Component {
         </IonHeader>
         <IonContent>
           <IonSegment color="secondary" scrollable="true">
-            <IonSegmentButton type="button">
+            <IonSegmentButton type="button" onClick={() => this.show()}>
               <IonIcon icon={addCircle} style={{ fontSize: "28px" }}></IonIcon>
-              <IonLabel style={{ fontSize: "13px" }}>Chip1</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton type="button" style={{ paddingLeft: "20px" }}>
-              <IonIcon style={{ fontSize: "28px" }} icon={addCircle}></IonIcon>
-              <IonLabel style={{ fontSize: "13px" }}>Groups</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton type="button" style={{ paddingLeft: "20px" }}>
-              <IonIcon style={{ fontSize: "28px" }} icon={addCircle}></IonIcon>
-              <IonLabel style={{ fontSize: "13px" }}>Groups</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton type="button" style={{ paddingLeft: "20px" }}>
-              <IonIcon style={{ fontSize: "28px" }} icon={addCircle}></IonIcon>
-              <IonLabel style={{ fontSize: "13px" }}>Groups</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton type="button" style={{ paddingLeft: "20px" }}>
-              <IonIcon style={{ fontSize: "28px" }} icon={addCircle}></IonIcon>
-              <IonLabel style={{ fontSize: "13px" }}>Groups</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton
-              value="sat"
-              type="button"
-              style={{ paddingLeft: "5px" }}
-            >
-              <IonIcon style={{ fontSize: "28px" }} icon={addCircle}></IonIcon>
-              <IonLabel style={{ fontSize: "13px" }}>Automation</IonLabel>
             </IonSegmentButton>
           </IonSegment>
-          <IonGrid>
-            <IonRow>
-              <IonCol className="phome-col ion-align-self-center" size="3">
-                <IonButton
-                  fill="solid"
-                  className="device-btn ion-no-padding"
-                  shape="round"
-                  size="large"
-                  expand="block"
-                  color="medium"
-                  onClick={() => this.show()}
-                >
-                  <IonIcon
-                    icon={addCircleOutline}
-                    size="large"
-                    className="io-icon"
-                  ></IonIcon>
-                </IonButton>
-              </IonCol>
-              <IonCol className="phome-col ion-align-self-center" size="3">
-                <IonButton
-                  fill="solid"
-                  className="device-btn ion-no-padding"
-                  shape="round"
-                  size="large"
-                  expand="block"
-                  color="medium"
-                  onClick={() => this.show()}
-                >
-                  <IonIcon
-                    icon={addCircleOutline}
-                    size="large"
-                    className="io-icon"
-                  ></IonIcon>
-                </IonButton>
-              </IonCol>
-              <IonCol className="phome-col ion-align-self-center" size="3">
-                <IonButton
-                  fill="solid"
-                  className="device-btn ion-no-padding"
-                  shape="round"
-                  size="large"
-                  expand="block"
-                  color="medium"
-                  onClick={() => this.show()}
-                >
-                  <IonIcon
-                    icon={addCircleOutline}
-                    size="large"
-                    className="io-icon"
-                  ></IonIcon>
-                </IonButton>
-              </IonCol>
-              <IonCol className="phome-col ion-align-self-center" size="3">
-                <IonButton
-                  fill="solid"
-                  className="device-btn ion-no-padding"
-                  shape="round"
-                  size="large"
-                  expand="block"
-                  color="medium"
-                  onClick={() => this.show()}
-                >
-                  <IonIcon
-                    icon={addCircleOutline}
-                    size="large"
-                    className="io-icon"
-                  ></IonIcon>
-                </IonButton>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+
           <Modal
             containerStyle={test}
             show={this.state.show}
             onClose={this.close}
           >
-            <IonHeader className="head contHead">Emergency</IonHeader>
-            <IonNote
-              className="contBod"
+            <IonHeader
+              className="head contHead"
+              style={{ textAlign: "center", height: "30px", paddingTop: "5px" }}
+            >
+              ChipSetup
+            </IonHeader>
+            <div
               style={{
-                paddingLeft: "6rem",
+                margin: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "180px",
+                width: "180px",
               }}
             >
-              Call 108
-              <IonIcon
-                style={{
-                  paddingLeft: "0.3rem",
-                }}
-                icon={bedSharp}
-              ></IonIcon>
-            </IonNote>
+              <IonButton
+                fill="solid"
+                className="icon-btn ion-no-padding"
+                style={{ paddingTop: "5px", height: "100px", width: "100px" }}
+                shape="round"
+                size="large"
+                expand="block"
+                color="medium"
+              >
+                <IonIcon icon={hardwareChip} size="large" className="io-icon">
+                  Add Icon
+                </IonIcon>
+              </IonButton>
+            </div>
             <IonItem>
-              <IonTextarea
-                className="contBod"
-                style={{
-                  width: "15rem",
+              <IonInput
+                style={{ color: "black" }}
+                placeholder="Chip Name"
+                type="text"
+                inputMode="text"
+                maxlength="50"
+                required="true"
+                value={this.state.chipname}
+                onIonChange={(data) => {
+                  this.setState({ chipname: data.target.value });
                 }}
-                spellcheck="true"
-                color="dark"
-                placeholder="Type your Emergency message here..."
-                rows="4"
-                cols="50"
-              />
+              ></IonInput>
             </IonItem>
-            <IonRow>
-              <IonSegment>
-                <IonSegmentButton value="Self">
-                  <IonLabel className="contBod">Self</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="Others">
-                  <IonLabel className="contBod">Others</IonLabel>
-                </IonSegmentButton>
-              </IonSegment>
-            </IonRow>
-            <IonRow>
-              <IonCol size="1"></IonCol>
-              <IonCol size="4">
-                <IonButton className="contBod">Submit</IonButton>
+
+            <IonRow style={{ paddingTop: "10px" }}>
+              <IonCol size="6">
+                <IonButton className="contBod" onClick={() => this.NextFn()}>
+                  Submit
+                </IonButton>
               </IonCol>
-              <IonCol size="1"></IonCol>
-              <IonCol size="4">
+
+              <IonCol size="6">
                 <IonButton className="contBod" onClick={() => this.close()}>
                   Cancel
                 </IonButton>
               </IonCol>
-              <IonCol size="1"></IonCol>
             </IonRow>
           </Modal>
+          <IonToast
+            isOpen={this.state.tshow}
+            onDidDismiss={() => this.handleToast()}
+            message={fieldTitle}
+            duration={3000}
+          />
         </IonContent>
       </IonPage>
     );
@@ -235,3 +161,17 @@ class ChipSetup extends React.Component {
 }
 
 export default ChipSetup;
+
+/* 
+<IonTextarea
+                className="contBod"
+                style={{
+                  width: "15rem",
+                }}
+                spellcheck="true"
+                color="dark"
+                placeholder="Chip Name"
+                rows="4"
+                cols="50"
+              />
+*/

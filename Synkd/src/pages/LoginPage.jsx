@@ -149,15 +149,19 @@ class LoginPage extends React.Component {
           .then((resp) => {
             if (resp.message === "Authentication Successful") {
               /*On success, setting the user name in the local storage*/
+              console.log(resp);
+              console.log(resp.userid);
               let obj = this.state.username;
               localStorage.setItem("username", JSON.stringify(obj));
               localStorage.setItem("token", JSON.stringify(resp.token));
-              // if (resp.homeid != null) {
-              //   this.props.history.push({ pathname: "/EHomePage" });
-              // } else {
-              //   this.props.history.push({ pathname: "/AddHomePage" });
-              // }
-              this.props.history.push({ pathname: "/AddHomePage" });
+              localStorage.setItem("homeid", JSON.stringify(resp.homeid[0]));
+              if (resp.homeid != null) {
+                this.props.history.push({ pathname: "/EHomePage" });
+              } else {
+                this.props.history.push({ pathname: "/AddHomePage" });
+              }
+              localStorage.setItem("userid", JSON.stringify(resp.userid));
+              //this.props.history.push({ pathname: "/AddHomePage" });
               this.refreshPage();
             } else {
               fieldTitle = "Email ID or Pasword is wrong";
