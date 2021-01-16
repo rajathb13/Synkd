@@ -15,17 +15,24 @@ import "./LoginPage.css";
 import { withRouter } from "react-router-dom";
 
 class RoomIcon extends React.Component {
+  refreshPage() {
+    window.location.reload();
+  }
+
   bedfn() {
     localStorage.setItem("Ricon", JSON.stringify("bedSharp"));
     this.props.history.push({ pathname: "/NameRoom" });
+    this.refreshPage();
   }
   kitchenfn() {
     localStorage.setItem("Ricon", JSON.stringify("fastFoodOutline"));
     this.props.history.push({ pathname: "/NameRoom" });
+    this.refreshPage();
   }
   showerfn() {
     localStorage.setItem("Ricon", JSON.stringify("maleFemaleOutline"));
     this.props.history.push({ pathname: "/NameRoom" });
+    this.refreshPage();
   }
 
   render() {

@@ -38,17 +38,29 @@ const test = {
 };
 
 var fieldTitle = "";
+var data = "";
+var auth_token = "";
 
 class ChipSetup extends React.Component {
   constructor() {
     super();
+    auth_token = JSON.parse(localStorage.getItem("token"));
     this.state = {
-      chipname: "",
+      name: "",
+      roomid: "",
+      state: "0",
+      mac: "0.0.0.0",
     };
     this.close = this.close.bind(this);
   }
   show() {
     this.setState({ show: true });
+  }
+
+  componentDidMount() {
+    var id = JSON.parse(localStorage.getItem("roomid"));
+    this.setState({ roomid: id });
+    //console.log(id);
   }
 
   handleToast() {
@@ -58,10 +70,46 @@ class ChipSetup extends React.Component {
   }
 
   NextFn() {
-    if (!this.state.chipname) {
+    if (!this.state.name) {
       fieldTitle = "Please enter Chip Name";
       this.handleToast();
-    } else {
+    }
+    if (this.state.name) {
+      data = this.state;
+      console.log(data);
+      fetch("https://clickademy.in/switchcontrollers/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth_token,
+        },
+        body: JSON.stringify(data),
+      }).then((result) => {
+        result
+          .json()
+          .then((resp) => {
+            if (resp) {
+              //this.setState({ items: resp.rooms });
+              /*On success, setting the homeid in the local storage*/
+              //let obj = resp.createdHome._id;
+              //localStorage.setItem("homeid", JSON.stringify(obj));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              console.log(resp);
+
+              // this.props.history.push({ pathname: "/PHomePage" });
+            } else {
+              fieldTitle = "Home not created";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("Home not created", error);
+          });
+      });
       this.props.history.push({ pathname: "/ChipLoad" });
     }
   }
@@ -78,7 +126,7 @@ class ChipSetup extends React.Component {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonSegment color="secondary" scrollable="true">
+          <IonSegment color="secondary">
             <IonSegmentButton type="button" onClick={() => this.show()}>
               <IonIcon icon={addCircle} style={{ fontSize: "28px" }}></IonIcon>
             </IonSegmentButton>
@@ -127,9 +175,9 @@ class ChipSetup extends React.Component {
                 inputMode="text"
                 maxlength="50"
                 required="true"
-                value={this.state.chipname}
+                value={this.state.name}
                 onIonChange={(data) => {
-                  this.setState({ chipname: data.target.value });
+                  this.setState({ name: data.target.value });
                 }}
               ></IonInput>
             </IonItem>

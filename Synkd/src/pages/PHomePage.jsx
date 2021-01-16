@@ -9,23 +9,15 @@ import {
   IonLabel,
   IonItem,
   IonFooter,
-  IonToolbar,
-  IonTitle,
 } from "@ionic/react";
 import React from "react";
 import "./LoginPage.css";
-import {
-  bedSharp,
-  fastFoodOutline,
-  maleFemaleOutline,
-  addCircle,
-} from "ionicons/icons";
+import { bedSharp, addCircle } from "ionicons/icons";
 import SideMenuPage from "./SideMenuPage";
 import SF from "./SF";
 
-var data_list = [];
-var objData;
 var auth_token;
+var rid = "";
 var fieldTitle = "";
 
 const contentStyle = {
@@ -42,7 +34,9 @@ class PHomepage extends React.Component {
       homeid: "",
       rname: "",
       ricon: "",
+      roomid: "",
       items: [],
+      switchcontroller: [],
     };
   }
 
@@ -65,9 +59,21 @@ class PHomepage extends React.Component {
     this.props.history.push({ pathname: "/RoomIcon" });
   }
 
+  displayfn = (e) => {
+    const id = e.target.id;
+    this.setState({ roomid: id });
+    localStorage.setItem("roomid", JSON.stringify(id));
+    // if (!this.state.switchcontroller) {
+    //   this.props.history.push({ pathname: "/ChipSetup" });
+    // } else {
+    //   this.props.history.push({ pathname: "/ChipLoad" });
+    // }
+    this.props.history.push({ pathname: "/ChipSetup" });
+  };
+
   getRoomInfo() {
     let data = this.state;
-    console.log(data);
+    //console.log(data);
     fetch("https://clickademy.in/home/retrieve-rooms", {
       method: "POST",
       headers: {
@@ -81,6 +87,10 @@ class PHomepage extends React.Component {
         .then((resp) => {
           if (resp) {
             this.setState({ items: resp.rooms });
+            this.setState({
+              switchcontroller: resp.rooms[0].switchcontrollerid,
+            });
+            console.log(this.state.switchcontroller);
             /*On success, setting the homeid in the local storage*/
             //let obj = resp.createdHome._id;
             //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -90,7 +100,7 @@ class PHomepage extends React.Component {
             //   this.props.history.push({ pathname: "/AddHomePage" });
             // }
             console.log(resp);
-
+            //console.log(this.state.switchcontroller);
             // this.props.history.push({ pathname: "/PHomePage" });
           } else {
             fieldTitle = "Home not created";
@@ -120,6 +130,8 @@ class PHomepage extends React.Component {
                       size="large"
                       expand="block"
                       color="medium"
+                      id={item._id}
+                      onClick={this.displayfn}
                     >
                       <IonIcon
                         icon={bedSharp}
@@ -134,6 +146,7 @@ class PHomepage extends React.Component {
               })}
             </IonRow>
           </IonGrid>
+
           <IonItem lines="none" className="ion-float-right"></IonItem>
         </IonContent>
         <IonFooter className="ion-no-border" style={{ textAlign: "end" }}>

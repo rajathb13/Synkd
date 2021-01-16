@@ -1,29 +1,9 @@
-import {
-  IonContent,
-  IonPage,
-  IonRow,
-  IonIcon,
-  IonGrid,
-  IonCol,
-  IonInput,
-  IonItem,
-  IonTitle,
-  IonToolbar,
-  IonFooter,
-  IonButton,
-  IonHeader,
-  IonTabBar,
-  IonSegmentButton,
-  IonLabel,
-  IonSegment,
-  IonLoading,
-} from "@ionic/react";
-import React, { useState } from "react";
+import { IonPage, IonIcon, IonButton } from "@ionic/react";
+import React from "react";
 import "./LoginPage.css";
 import { addCircle } from "ionicons/icons";
 import SideMenuPage from "./SideMenuPage";
 import SF from "./SF";
-import Loader from "react-loader-spinner";
 
 const contentStyle = {
   height: "300px",
@@ -88,17 +68,6 @@ class Homepage extends React.Component {
         });
     });
   }
-  spinnerfn() {
-    return (
-      <Loader
-        type="Rings"
-        color="#00BFFF"
-        height={100}
-        width={100}
-        timeout={3000} //3 secs
-      />
-    );
-  }
 
   IconFn() {
     this.props.history.push({ pathname: "/RoomIcon" });
@@ -122,9 +91,6 @@ class Homepage extends React.Component {
   }
 
   render() {
-    if (this.state.loading) {
-      return null; //app is not ready (fake request is in process)
-    }
     return (
       <IonPage>
         <SideMenuPage />
