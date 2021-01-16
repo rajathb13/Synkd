@@ -21,6 +21,7 @@ class NameHomePage extends React.Component {
     auth_token = JSON.parse(localStorage.getItem("token"));
     this.state = {
       homename: "",
+      userid: "",
     };
   }
 
@@ -28,6 +29,11 @@ class NameHomePage extends React.Component {
     this.setState({
       show: !this.state.show,
     });
+  }
+
+  componentDidMount() {
+    var userid = JSON.parse(localStorage.getItem("userid"));
+    this.setState({ userid: userid });
   }
 
   onSubmit() {
@@ -48,16 +54,17 @@ class NameHomePage extends React.Component {
         result
           .json()
           .then((resp) => {
-            if (resp.createdHome._id) {
+            if (resp.message === "Home Created") {
               /*On success, setting the homeid in the local storage*/
-              let obj = resp.createdHome._id;
+              console.log(resp);
+              let obj = resp._homeid;
               localStorage.setItem("homeid", JSON.stringify(obj));
               // if (resp.homeid != null) {
               //   this.props.history.push({ pathname: "/EHomePage" });
               // } else {
               //   this.props.history.push({ pathname: "/AddHomePage" });
               // }
-              console.log(resp.createdHome._id);
+              //console.log(resp);
               this.props.history.push({ pathname: "/EHomePage" });
             } else {
               fieldTitle = "Home not created";

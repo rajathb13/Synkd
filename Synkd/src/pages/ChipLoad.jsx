@@ -1,20 +1,19 @@
 import {
   IonContent,
   IonPage,
-  IonToast,
+  IonInput,
   IonIcon,
   IonRow,
   IonCol,
   IonButton,
-  IonInput,
+  IonLabel,
   IonItem,
   IonSegmentButton,
   IonSegment,
   IonToolbar,
   IonTitle,
   IonHeader,
-  IonNote,
-  IonTextarea,
+  IonToast,
 } from "@ionic/react";
 import { hardwareChip, addCircle } from "ionicons/icons";
 import React from "react";
@@ -41,13 +40,15 @@ var fieldTitle = "";
 var data = "";
 var auth_token = "";
 
+///room/retrieve-switchcontrollers
 class ChipSetup extends React.Component {
   constructor() {
     super();
     auth_token = JSON.parse(localStorage.getItem("token"));
     this.state = {
-      name: "",
       roomid: "",
+      switchitems: [],
+      name: "",
       state: "0",
       mac: "0.0.0.0",
     };
@@ -57,10 +58,20 @@ class ChipSetup extends React.Component {
     this.setState({ show: true });
   }
 
+  close() {
+    this.setState({ show: false });
+  }
+
+  refreshPage() {
+    window.location.reload();
+  }
+
   componentDidMount() {
     var id = JSON.parse(localStorage.getItem("roomid"));
     this.setState({ roomid: id });
-    //console.log(id);
+    setTimeout(() => {
+      this.LoadFn();
+    }, 1000);
   }
 
   handleToast() {
@@ -73,10 +84,8 @@ class ChipSetup extends React.Component {
     if (!this.state.name) {
       fieldTitle = "Please enter Chip Name";
       this.handleToast();
-    }
-    if (this.state.name) {
+    } else {
       data = this.state;
-      console.log(data);
       fetch("https://clickademy.in/switchcontrollers/create", {
         method: "POST",
         headers: {
@@ -89,7 +98,7 @@ class ChipSetup extends React.Component {
           .json()
           .then((resp) => {
             if (resp) {
-              //this.setState({ items: resp.rooms });
+              this.setState({ items: resp.rooms });
               /*On success, setting the homeid in the local storage*/
               //let obj = resp.createdHome._id;
               //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -100,7 +109,8 @@ class ChipSetup extends React.Component {
               // }
               console.log(resp);
 
-              // this.props.history.push({ pathname: "/PHomePage" });
+              this.props.history.push({ pathname: "/ChipLoad" });
+              this.refreshPage();
             } else {
               fieldTitle = "Home not created";
               this.handleToast();
@@ -114,9 +124,43 @@ class ChipSetup extends React.Component {
     }
   }
 
-  close() {
-    this.setState({ show: false });
+  LoadFn() {
+    data = this.state;
+    fetch("https://clickademy.in/room/retrieve-switchcontrollers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth_token,
+      },
+      body: JSON.stringify(data),
+    }).then((result) => {
+      result
+        .json()
+        .then((resp) => {
+          if (resp) {
+            this.setState({ switchitems: resp.switchControllers });
+            /*On success, setting the homeid in the local storage*/
+            //let obj = resp.createdHome._id;
+            //localStorage.setItem("homeid", JSON.stringify(obj));
+            // if (resp.homeid != null) {
+            //   this.props.history.push({ pathname: "/EHomePage" });
+            // } else {
+            //   this.props.history.push({ pathname: "/AddHomePage" });
+            // }
+            console.log(resp.switchControllers);
+
+            //this.props.history.push({ pathname: "/ChipLoad" });
+          } else {
+            fieldTitle = "Home not created";
+            this.handleToast();
+          }
+        })
+        .catch((error) => {
+          console.log("Home not created", error);
+        });
+    });
   }
+
   render() {
     return (
       <IonPage>
@@ -126,12 +170,22 @@ class ChipSetup extends React.Component {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonSegment color="secondary">
+          <IonSegment color="secondary" scrollable="true">
+            {this.state.switchitems.map((item, index) => {
+              return (
+                <IonSegmentButton type="button">
+                  <IonLabel style={{ fontSize: "13px" }}>{item.name}</IonLabel>
+                </IonSegmentButton>
+              );
+            })}
             <IonSegmentButton type="button" onClick={() => this.show()}>
-              <IonIcon icon={addCircle} style={{ fontSize: "28px" }}></IonIcon>
+              <IonIcon
+                icon={addCircle}
+                size="large"
+                className="io-icon"
+              ></IonIcon>
             </IonSegmentButton>
           </IonSegment>
-
           <Modal
             containerStyle={test}
             show={this.state.show}
@@ -209,17 +263,3 @@ class ChipSetup extends React.Component {
 }
 
 export default ChipSetup;
-
-/* 
-<IonTextarea
-                className="contBod"
-                style={{
-                  width: "15rem",
-                }}
-                spellcheck="true"
-                color="dark"
-                placeholder="Chip Name"
-                rows="4"
-                cols="50"
-              />
-*/

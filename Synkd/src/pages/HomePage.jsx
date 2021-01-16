@@ -1,22 +1,4 @@
-import {
-  IonContent,
-  IonPage,
-  IonRow,
-  IonIcon,
-  IonGrid,
-  IonCol,
-  IonInput,
-  IonItem,
-  IonTitle,
-  IonToolbar,
-  IonFooter,
-  IonButton,
-  IonHeader,
-  IonTabBar,
-  IonSegmentButton,
-  IonLabel,
-  IonSegment,
-} from "@ionic/react";
+import { IonPage, IonIcon, IonButton } from "@ionic/react";
 import React from "react";
 import "./LoginPage.css";
 import { addCircle } from "ionicons/icons";
@@ -29,13 +11,72 @@ const contentStyle = {
   width: "300px",
 };
 
+var auth_token = "";
+var homeid = "";
+var data = "";
+
 class Homepage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      homeid: "",
+      loading: true,
+    };
+  }
+
   async componentDidMount() {
     localStorage.setItem("UPage", JSON.stringify("/EHomePage"));
+    auth_token = JSON.parse(localStorage.getItem("token"));
+    homeid = JSON.parse(localStorage.getItem("homeid"));
+    this.setState({ homeid: homeid });
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.roomsExist();
+    }, 50);
+  }
+
+  refreshPage() {
+    window.location.reload();
+  }
+
+  roomsExist() {
+    data = this.state;
+    fetch("https://clickademy.in/home/retrieve-rooms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth_token,
+      },
+      body: JSON.stringify(data),
+    }).then((result) => {
+      result
+        .json()
+        .then((resp) => {
+          if (resp.rooms != null) {
+            console.log(resp);
+            /*On success, setting the user name in the local storage*/
+            this.props.history.push({ pathname: "/PHomePage" });
+            this.refreshPage();
+          } else {
+            //this.props.history.push({ pathname: "/EHomePage" });
+            //this.refreshPage();
+          }
+        })
+        .catch((error) => {
+          console.log("Invalid email or Wrong Password", error);
+        });
+    });
   }
 
   IconFn() {
     this.props.history.push({ pathname: "/RoomIcon" });
+  }
+
+  handleToast() {
+    this.setState({
+      show: !this.state.show,
+    });
   }
 
   nextfn() {

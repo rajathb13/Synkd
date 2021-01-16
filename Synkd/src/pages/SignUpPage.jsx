@@ -98,11 +98,13 @@ class Signup extends React.Component {
           .then((resp) => {
             if (resp.message === "Registration Successful") {
               //let obj = this.state.firstname;
+              console.log(resp);
               console.log(this.state.firstname);
               localStorage.setItem(
                 "Name",
                 JSON.stringify(this.state.firstname)
               );
+
               this.props.history.push({ pathname: "/LoginPage" });
               this.refreshPage();
             } else {

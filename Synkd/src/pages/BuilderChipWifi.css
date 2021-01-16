@@ -1,0 +1,23 @@
+.button_ion_wifi{
+    margin-top: 6rem;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    height: 140px;
+    width: 140px;
+    border-radius: 60%;
+    background-color: gray;
+}
+
+.icon_corner_wifi{
+    display: flex;
+    justify-content: center;
+    width: 80px;
+    height: 140px;
+    margin:auto;
+    
+}
+
+.desc_ion_wifi{
+    margin: 3rem 2rem 0 3rem;
+    font-size: 20px;
+}

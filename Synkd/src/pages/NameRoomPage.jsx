@@ -47,6 +47,10 @@ class NameRoom extends React.Component {
     this.setState({ iconname: iname });
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
   nextfn() {
     if (!this.state.roomname) {
       fieldTitle = "Please enter a Room Name";
@@ -64,7 +68,7 @@ class NameRoom extends React.Component {
         result
           .json()
           .then((resp) => {
-            if (resp.homename) {
+            if (resp.rooms._id) {
               /*On success, setting the homeid in the local storage*/
               //let obj = resp.;
               //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -75,6 +79,7 @@ class NameRoom extends React.Component {
               // }
               console.log(resp);
               this.props.history.push({ pathname: "/PHomePage" });
+              this.refreshPage();
             } else {
               fieldTitle = "Home not created";
               this.handleToast();
