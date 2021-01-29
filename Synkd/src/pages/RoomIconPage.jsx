@@ -10,7 +10,6 @@ import {
 import React from "react";
 import { bedSharp, fastFoodOutline, maleFemaleOutline } from "ionicons/icons";
 import { FaShower } from "react-icons/fa";
-import { GiKnifeFork } from "react-icons/gi";
 import "./LoginPage.css";
 import { withRouter } from "react-router-dom";
 

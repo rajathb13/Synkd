@@ -25,6 +25,7 @@ var fieldTitle = "";
 var app1 = "Facebook";
 var app2 = "Google";
 var username = "";
+var homeid = "";
 
 const INITIAL_STATE = {
   loggedIn: false,
@@ -45,6 +46,7 @@ class LoginPage extends React.Component {
       displayname: "",
       email: "",
       picture: "",
+      homeid: "",
       ...INITIAL_STATE,
       ...GINITIAL_STATE,
     };
@@ -152,9 +154,10 @@ class LoginPage extends React.Component {
               console.log(resp);
               console.log(resp.userid);
               let obj = this.state.username;
+              localStorage.setItem("homeid", JSON.stringify(resp.homeid[0]));
               localStorage.setItem("username", JSON.stringify(obj));
               localStorage.setItem("token", JSON.stringify(resp.token));
-              localStorage.setItem("homeid", JSON.stringify(resp.homeid[0]));
+
               if (resp.homeid != null) {
                 this.props.history.push({ pathname: "/EHomePage" });
               } else {
@@ -173,6 +176,36 @@ class LoginPage extends React.Component {
           });
       });
     }
+  }
+
+  roomsExist() {
+    var auth_token = JSON.parse(localStorage.getItem("token"));
+    var data = this.state;
+    fetch("https://clickademy.in/home/retrieve-rooms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth_token,
+      },
+      body: JSON.stringify(data),
+    }).then((result) => {
+      result
+        .json()
+        .then((resp) => {
+          if (resp.rooms != null) {
+            console.log(resp);
+            /*On success, setting the user name in the local storage*/
+            this.props.history.push({ pathname: "/PHomePage" });
+            this.refreshPage();
+          } else {
+            this.props.history.push({ pathname: "/EHomePage" });
+            this.refreshPage();
+          }
+        })
+        .catch((error) => {
+          console.log("No rooms Available", error);
+        });
+    });
   }
 
   render() {

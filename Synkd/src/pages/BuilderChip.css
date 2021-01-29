@@ -1,0 +1,30 @@
+.button_ion {
+  margin-top: 6rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  height: 140px;
+  width: 140px;
+  border-radius: 60%;
+  background-color: gray;
+}
+
+.desc_ion {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+}
+.row_down {
+  margin-top: 10rem;
+}
+
+.icon_corner {
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 80px;
+  margin: auto;
+}
+
+.button_con {
+  margin-bottom: 15rem;
+}

@@ -31,6 +31,9 @@ import SelectDevice from "./pages/SelectDevice";
 import ChipSetup from "./pages/ChipSetup";
 import BuilderChipWifi from "./pages/BuilderChipWifi";
 import ChipLoad from "./pages/ChipLoad";
+import Homeload from "./pages/HomeLoading";
+import BuilderChip from "./pages/BuilderChip";
+import ERoomPage from "./pages/ERoomPage";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -115,6 +118,9 @@ class App extends React.Component {
                 exact={true}
               />
               <Route path="/ChipLoad" component={ChipLoad} exact={true} />
+              <Route path="/Homeload" component={Homeload} exact={true} />
+              <Route path="/BuilderChip" component={BuilderChip} exact={true} />
+              <Route path="/ERoomPage" component={ERoomPage} exact={true} />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>

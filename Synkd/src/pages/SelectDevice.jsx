@@ -20,6 +20,13 @@ import plug from "../images/power-plug.png";
 import IR from "../images/IR.png";
 
 class SelectDevice extends React.Component {
+  refreshPage() {
+    window.location.reload();
+  }
+
+  BuilderChipFn() {
+    this.props.history.push({ pathname: "/BuilderChip" });
+  }
   render() {
     return (
       <IonPage>
@@ -36,6 +43,7 @@ class SelectDevice extends React.Component {
                 color="dark"
                 size="large"
                 fill="clear"
+                onClick={() => this.BuilderChipFn()}
               >
                 <IonIcon
                   className="icon_corner"
