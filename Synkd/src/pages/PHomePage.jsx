@@ -68,7 +68,7 @@ class PHomepage extends React.Component {
     // } else {
     //   this.props.history.push({ pathname: "/ChipLoad" });
     // }
-    this.props.history.push({ pathname: "/ChipSetup" });
+    this.props.history.push({ pathname: "/ERoomPage" });
   };
 
   getRoomInfo() {

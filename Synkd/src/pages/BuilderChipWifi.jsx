@@ -15,7 +15,7 @@ import {
   IonInput,
   IonToast,
 } from "@ionic/react";
-import { hardwareChip, wifi } from "ionicons/icons";
+import { wifi } from "ionicons/icons";
 import "./BuilderChipWifi.css";
 
 var fieldTitle = "";
