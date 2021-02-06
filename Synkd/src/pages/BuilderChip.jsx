@@ -24,22 +24,31 @@ class BuilderChip extends React.Component {
       method: "GET",
     })
       .then((result) => {
-        if (result) {
-          /*On success, setting the homeid in the local storage*/
-          //let obj = resp.createdHome._id;
-          //localStorage.setItem("homeid", JSON.stringify(obj));
-          // if (resp.homeid != null) {
-          //   this.props.history.push({ pathname: "/EHomePage" });
-          // } else {
-          //   this.props.history.push({ pathname: "/AddHomePage" });
-          // }
-          console.log(result);
-
-          // this.props.history.push({ pathname: "/PHomePage" });
-        } else {
-          fieldTitle = "Wifi details not sent";
-          this.handleToast();
-        }
+        result
+          .json()
+          .then((resp) => {
+            if (resp.mac) {
+              //this.setState({ items: resp.rooms });
+              /*On success, setting the homeid in the local storage*/
+              //let obj = resp.createdHome._id;
+              //localStorage.setItem("homeid", JSON.stringify(obj));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              console.log(resp.mac);
+              localStorage.setItem("mac", JSON.stringify(resp.mac));
+              this.props.history.push({ pathname: "/BuilderChipWifi" });
+              this.refreshPage();
+            } else {
+              fieldTitle = "Home not created";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("Home not created", error);
+          });
       })
       .catch((error) => {
         console.log("Wifi details not sent", error);

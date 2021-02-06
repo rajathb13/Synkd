@@ -1,4 +1,4 @@
-/*This page loads all the chips and is the landing page when no slots are created*/
+/* This page loads all the slots available for a chip*/
 
 import {
   IonContent,
@@ -51,13 +51,14 @@ var data = "";
 var auth_token = "";
 
 ///room/retrieve-switchcontrollers
-class ChipSetup extends React.Component {
+class LoadSlots extends React.Component {
   constructor() {
     super();
     auth_token = JSON.parse(localStorage.getItem("token"));
     this.state = {
       roomid: "",
       switchitems: [],
+      slotsItems: [],
       name: "",
       state: "0",
       mac: "",
@@ -84,11 +85,51 @@ class ChipSetup extends React.Component {
     setTimeout(() => {
       this.LoadFn();
     }, 500);
+    setTimeout(() => {
+      this.getSlotsInfo();
+    }, 500);
   }
 
   handleToast() {
     this.setState({
       tshow: !this.state.tshow,
+    });
+  }
+
+  getSlotsInfo() {
+    fetch("https://clickademy.in/switchcontrollers/retrieve-slots", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth_token,
+      },
+      body: JSON.stringify(data),
+    }).then((result) => {
+      result
+        .json()
+        .then((resp) => {
+          if (resp) {
+            this.setState({ slotsItems: resp.rooms });
+            /*On success, setting the homeid in the local storage*/
+            //let obj = resp.createdHome._id;
+            //localStorage.setItem("homeid", JSON.stringify(obj));
+            // if (resp.homeid != null) {
+            //   this.props.history.push({ pathname: "/EHomePage" });
+            // } else {
+            //   this.props.history.push({ pathname: "/AddHomePage" });
+            // }
+            console.log(resp);
+
+            //this.props.history.push({ pathname: "/BuilderChip" });
+            //this.refreshPage();
+          } else {
+            fieldTitle = "Home not created";
+            this.handleToast();
+          }
+        })
+        .catch((error) => {
+          console.log("Home not created", error);
+        });
     });
   }
 
@@ -197,7 +238,7 @@ class ChipSetup extends React.Component {
             //   this.props.history.push({ pathname: "/AddHomePage" });
             // }
             console.log(resp.switchControllers);
-            console.log(this.state.switchitems);
+
             //this.props.history.push({ pathname: "/ChipLoad" });
           } else {
             fieldTitle = "Home not created";
@@ -277,32 +318,53 @@ class ChipSetup extends React.Component {
               ></IonIcon>
             </IonSegmentButton>
           </IonSegment>
+          <IonGrid className="phome-grid">
+            <IonRow className="phome-row">
+              {this.state.slotsItems.map((item, index) => {
+                return (
+                  <IonCol className="phome-col ion-align-self-center" size="4">
+                    <IonButton
+                      fill="solid"
+                      className="icon-btn ion-no-padding"
+                      shape="round"
+                      size="large"
+                      expand="block"
+                      color="medium"
+                      id={item._id}
+                      onClick={this.displayfn}
+                    >
+                      <IonIcon
+                        icon={bedSharp}
+                        size="large"
+                        className="io-icon"
+                      ></IonIcon>
+                    </IonButton>
+                    <br />
+                    <IonLabel className="icon_label1">{item.roomname}</IonLabel>
+                  </IonCol>
+                );
+              })}
+            </IonRow>
+          </IonGrid>
 
-          <IonContent>
-            <div
-              style={{
-                margin: "auto",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "200px",
+          <IonItem lines="none" className="ion-float-right"></IonItem>
+
+          <IonFooter className="ion-no-border" style={{ textAlign: "end" }}>
+            <IonButton
+              mode="md"
+              style={contentStyle}
+              fill="clear"
+              onClick={() => {
+                this.NewSlotFn();
               }}
             >
-              <IonButton
-                style={contentStyle}
-                fill="clear"
-                onClick={() => {
-                  this.IconFn();
-                }}
-              >
-                <IonIcon
-                  color="dark"
-                  style={{ fontSize: "150px" }}
-                  icon={addCircle}
-                ></IonIcon>
-              </IonButton>
-            </div>
-          </IonContent>
+              <IonIcon
+                color="dark"
+                style={{ fontSize: "150px" }}
+                icon={addCircle}
+              ></IonIcon>
+            </IonButton>
+          </IonFooter>
           <Modal
             containerStyle={test}
             show={this.state.show}
@@ -379,4 +441,4 @@ class ChipSetup extends React.Component {
   }
 }
 
-export default ChipSetup;
+export default LoadSlots;

@@ -63,12 +63,12 @@ class PHomepage extends React.Component {
     const id = e.target.id;
     this.setState({ roomid: id });
     localStorage.setItem("roomid", JSON.stringify(id));
-    // if (!this.state.switchcontroller) {
-    //   this.props.history.push({ pathname: "/ChipSetup" });
-    // } else {
-    //   this.props.history.push({ pathname: "/ChipLoad" });
-    // }
-    this.props.history.push({ pathname: "/ERoomPage" });
+    if (this.state.switchcontroller.length === 0) {
+      this.props.history.push({ pathname: "/ChipSetup" });
+    } else {
+      this.props.history.push({ pathname: "/ChipLoad" });
+    }
+    //this.props.history.push({ pathname: "/ERoomPage" });
   };
 
   getRoomInfo() {
@@ -90,7 +90,7 @@ class PHomepage extends React.Component {
             this.setState({
               switchcontroller: resp.rooms[0].switchcontrollerid,
             });
-            console.log(this.state.switchcontroller);
+            //console.log(this.state.switchcontroller);
             /*On success, setting the homeid in the local storage*/
             //let obj = resp.createdHome._id;
             //localStorage.setItem("homeid", JSON.stringify(obj));

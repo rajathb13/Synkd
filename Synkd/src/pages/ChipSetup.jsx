@@ -110,7 +110,7 @@ class ChipSetup extends React.Component {
             console.log("Home not created", error);
           });
       });
-      this.props.history.push({ pathname: "/ChipLoad" });
+      this.props.history.push({ pathname: "/BuilderChip" });
     }
   }
 
@@ -122,7 +122,7 @@ class ChipSetup extends React.Component {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>SegmentExamples</IonTitle>
+            <IonTitle>Chip Setup</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
