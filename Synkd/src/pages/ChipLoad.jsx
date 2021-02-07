@@ -25,9 +25,9 @@ import "./LoginPage.css";
 import Modal from "simple-react-modal";
 
 const contentStyle = {
-  height: "90px",
+  height: "200px",
   justifyContent: "center",
-  width: "90px",
+  width: "200px",
 };
 
 const test = {
@@ -210,50 +210,12 @@ class ChipSetup extends React.Component {
     });
   }
 
-  slotsfn(e) {
-    const id = e.target.id;
-    this.setState({ mac: id });
-    fetch("https://clickademy.in/switchcontrollers/retrieve-slots", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth_token,
-      },
-      body: JSON.stringify(data),
-    }).then((result) => {
-      result
-        .json()
-        .then((resp) => {
-          if (resp) {
-            this.setState({ switchitems: resp.switchControllers });
-            /*On success, setting the homeid in the local storage*/
-            //let obj = resp.createdHome._id;
-            //localStorage.setItem("homeid", JSON.stringify(obj));
-            // if (resp.homeid != null) {
-            //   this.props.history.push({ pathname: "/EHomePage" });
-            // } else {
-            //   this.props.history.push({ pathname: "/AddHomePage" });
-            // }
-            console.log(resp.switchControllers);
-
-            //this.props.history.push({ pathname: "/ChipLoad" });
-          } else {
-            fieldTitle = "Home not created";
-            this.handleToast();
-          }
-        })
-        .catch((error) => {
-          console.log("Home not created", error);
-        });
-    });
-  }
-
   render() {
     return (
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>SegmentExamples</IonTitle>
+            <IonTitle>Chip Load</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -278,31 +240,30 @@ class ChipSetup extends React.Component {
             </IonSegmentButton>
           </IonSegment>
 
-          <IonContent>
-            <div
-              style={{
-                margin: "auto",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "200px",
+          <div
+            style={{
+              marginTop: "40%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "300px",
+            }}
+          >
+            <IonButton
+              style={contentStyle}
+              fill="clear"
+              onClick={() => {
+                this.NewSlotFn();
               }}
             >
-              <IonButton
-                style={contentStyle}
-                fill="clear"
-                onClick={() => {
-                  this.IconFn();
-                }}
-              >
-                <IonIcon
-                  color="dark"
-                  style={{ fontSize: "150px" }}
-                  icon={addCircle}
-                ></IonIcon>
-              </IonButton>
-            </div>
-          </IonContent>
+              <IonIcon
+                color="dark"
+                style={{ fontSize: "150px" }}
+                icon={addCircle}
+              ></IonIcon>
+            </IonButton>
+          </div>
+
           <Modal
             containerStyle={test}
             show={this.state.show}

@@ -35,6 +35,9 @@ import Homeload from "./pages/HomeLoading";
 import BuilderChip from "./pages/BuilderChip";
 import ERoomPage from "./pages/ERoomPage";
 import ChipNamePage from "./pages/ChipNamePage";
+import SlotsIcon from "./pages/SlotsIconPage";
+import NameSlots from "./pages/NameSlotsPage";
+
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -126,6 +129,8 @@ class App extends React.Component {
                 component={ChipNamePage}
                 exact={true}
               />
+              <Route path="/SlotsIcon" component={SlotsIcon} exact={true} />
+              <Route path="/NameSlots" component={NameSlots} exact={true} />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>
