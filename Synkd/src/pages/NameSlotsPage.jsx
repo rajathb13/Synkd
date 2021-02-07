@@ -21,6 +21,7 @@ var fieldTitle = "";
 var iname = "";
 var iconname = "";
 var auth_token;
+var slotnumber = 0;
 
 class NameSlots extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class NameSlots extends React.Component {
       name: "",
       mac: "",
       icon: "",
+      slotnumber: "",
     };
   }
 
@@ -39,6 +41,7 @@ class NameSlots extends React.Component {
     iname = JSON.parse(localStorage.getItem("Slotsicon"));
     console.log(iname);
     this.setState({ icon: iname });
+    this.setState({ slotnumber: slotnumber });
     if (iname === "tvSharp") {
       iname = tvSharp;
     }
@@ -58,42 +61,49 @@ class NameSlots extends React.Component {
       fieldTitle = "Please enter a Slot Name";
       this.handleToast();
     } else {
-      var data = this.state;
-      console.log(data);
-      fetch("https://clickademy.in/switchcontrollers/set-slot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth_token,
-        },
-        body: JSON.stringify(data),
-      }).then((result) => {
-        result
-          .json()
-          .then((resp) => {
-            if (resp) {
-              //this.setState({ items: resp.rooms });
-              /*On success, setting the homeid in the local storage*/
-              //let obj = resp.createdHome._id;
-              //localStorage.setItem("homeid", JSON.stringify(obj));
-              // if (resp.homeid != null) {
-              //   this.props.history.push({ pathname: "/EHomePage" });
-              // } else {
-              //   this.props.history.push({ pathname: "/AddHomePage" });
-              // }
-              console.log(resp);
+      if (slotnumber >= 16) {
+        fieldTitle = "Cannot create any more slots";
+        this.handleToast();
+      } else {
+        console.log(slotnumber);
+        var data = this.state;
+        slotnumber++;
+        console.log(data);
+        fetch("https://clickademy.in/switchcontrollers/set-slot", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth_token,
+          },
+          body: JSON.stringify(data),
+        }).then((result) => {
+          result
+            .json()
+            .then((resp) => {
+              if (resp) {
+                //this.setState({ items: resp.rooms });
+                /*On success, setting the homeid in the local storage*/
+                //let obj = resp.createdHome._id;
+                //localStorage.setItem("homeid", JSON.stringify(obj));
+                // if (resp.homeid != null) {
+                //   this.props.history.push({ pathname: "/EHomePage" });
+                // } else {
+                //   this.props.history.push({ pathname: "/AddHomePage" });
+                // }
+                console.log(resp);
 
-              //this.props.history.push({ pathname: "/BuilderChip" });
-              //this.refreshPage();
-            } else {
-              fieldTitle = "Slot not created";
-              this.handleToast();
-            }
-          })
-          .catch((error) => {
-            console.log("Slot not created", error);
-          });
-      });
+                //this.props.history.push({ pathname: "/BuilderChip" });
+                //this.refreshPage();
+              } else {
+                fieldTitle = "Slot not created";
+                this.handleToast();
+              }
+            })
+            .catch((error) => {
+              console.log("Slot not created", error);
+            });
+        });
+      }
     }
   }
 

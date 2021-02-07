@@ -40,7 +40,7 @@ class BuilderChip extends React.Component {
               console.log(resp.mac);
               localStorage.setItem("mac", JSON.stringify(resp.mac));
               this.props.history.push({ pathname: "/BuilderChipWifi" });
-              this.refreshPage();
+              //this.refreshPage();
             } else {
               fieldTitle = "Home not created";
               this.handleToast();

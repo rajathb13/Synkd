@@ -48,8 +48,43 @@ class ChipSetup extends React.Component {
     this.state = {
       name: "",
       roomid: "",
-      state: "0",
-      mac: "0.0.0.0",
+      mac: "",
+      slotnames: [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+      ],
+      sloticons: [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+      ],
     };
     this.close = this.close.bind(this);
   }
@@ -102,12 +137,12 @@ class ChipSetup extends React.Component {
 
               // this.props.history.push({ pathname: "/PHomePage" });
             } else {
-              fieldTitle = "Home not created";
+              fieldTitle = "Chip not created";
               this.handleToast();
             }
           })
           .catch((error) => {
-            console.log("Home not created", error);
+            console.log("Chip not created", error);
           });
       });
       this.props.history.push({ pathname: "/BuilderChip" });

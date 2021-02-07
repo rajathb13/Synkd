@@ -112,7 +112,7 @@ class BuilderChipWifi extends React.Component {
       }
     )
       .then((result) => {
-        if (result.status === 200) {
+        if (result) {
           /*On success, setting the homeid in the local storage*/
           //let obj = resp.createdHome._id;
           //localStorage.setItem("homeid", JSON.stringify(obj));

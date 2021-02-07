@@ -93,40 +93,8 @@ class ChipSetup extends React.Component {
   }
 
   NewSlotFn() {
-    fetch("https://clickademy.in/switchcontrollers/set-slot", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth_token,
-      },
-      body: JSON.stringify(data),
-    }).then((result) => {
-      result
-        .json()
-        .then((resp) => {
-          if (resp) {
-            //this.setState({ items: resp.rooms });
-            /*On success, setting the homeid in the local storage*/
-            //let obj = resp.createdHome._id;
-            //localStorage.setItem("homeid", JSON.stringify(obj));
-            // if (resp.homeid != null) {
-            //   this.props.history.push({ pathname: "/EHomePage" });
-            // } else {
-            //   this.props.history.push({ pathname: "/AddHomePage" });
-            // }
-            console.log(resp);
-
-            //this.props.history.push({ pathname: "/BuilderChip" });
-            //this.refreshPage();
-          } else {
-            fieldTitle = "Slot not created";
-            this.handleToast();
-          }
-        })
-        .catch((error) => {
-          console.log("Slot not created", error);
-        });
-    });
+    this.props.history.push({ pathname: "/SlotsIcon" });
+    this.refreshPage();
   }
 
   NextFn() {
@@ -158,7 +126,7 @@ class ChipSetup extends React.Component {
               // }
               console.log(resp);
 
-              //this.props.history.push({ pathname: "/BuilderChip" });
+              this.props.history.push({ pathname: "/BuilderChip" });
               //this.refreshPage();
             } else {
               fieldTitle = "Home not created";
