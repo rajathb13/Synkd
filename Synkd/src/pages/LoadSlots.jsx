@@ -109,7 +109,7 @@ class LoadSlots extends React.Component {
         .json()
         .then((resp) => {
           if (resp) {
-            this.setState({ slotsItems: resp.rooms });
+            //this.setState({ slotsItems: resp.rooms });
             /*On success, setting the homeid in the local storage*/
             //let obj = resp.createdHome._id;
             //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -237,45 +237,7 @@ class LoadSlots extends React.Component {
             // } else {
             //   this.props.history.push({ pathname: "/AddHomePage" });
             // }
-            console.log(resp.switchControllers);
-
-            //this.props.history.push({ pathname: "/ChipLoad" });
-          } else {
-            fieldTitle = "Home not created";
-            this.handleToast();
-          }
-        })
-        .catch((error) => {
-          console.log("Home not created", error);
-        });
-    });
-  }
-
-  slotsfn(e) {
-    const id = e.target.id;
-    this.setState({ mac: id });
-    fetch("https://clickademy.in/switchcontrollers/retrieve-slots", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth_token,
-      },
-      body: JSON.stringify(data),
-    }).then((result) => {
-      result
-        .json()
-        .then((resp) => {
-          if (resp) {
-            this.setState({ switchitems: resp.switchControllers });
-            /*On success, setting the homeid in the local storage*/
-            //let obj = resp.createdHome._id;
-            //localStorage.setItem("homeid", JSON.stringify(obj));
-            // if (resp.homeid != null) {
-            //   this.props.history.push({ pathname: "/EHomePage" });
-            // } else {
-            //   this.props.history.push({ pathname: "/AddHomePage" });
-            // }
-            console.log(resp.switchControllers);
+            //console.log(resp.switchControllers);
 
             //this.props.history.push({ pathname: "/ChipLoad" });
           } else {
@@ -294,7 +256,7 @@ class LoadSlots extends React.Component {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>SegmentExamples</IonTitle>
+            <IonTitle>Slots</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
