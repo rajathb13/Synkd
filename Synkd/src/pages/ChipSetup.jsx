@@ -49,42 +49,6 @@ class ChipSetup extends React.Component {
       name: "",
       roomid: "",
       mac: "",
-      slotnames: [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ],
-      sloticons: [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ],
     };
     this.close = this.close.bind(this);
   }
@@ -111,40 +75,7 @@ class ChipSetup extends React.Component {
     }
     if (this.state.name) {
       data = this.state;
-      console.log(data);
-      fetch("https://clickademy.in/switchcontrollers/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth_token,
-        },
-        body: JSON.stringify(data),
-      }).then((result) => {
-        result
-          .json()
-          .then((resp) => {
-            if (resp) {
-              //this.setState({ items: resp.rooms });
-              /*On success, setting the homeid in the local storage*/
-              //let obj = resp.createdHome._id;
-              //localStorage.setItem("homeid", JSON.stringify(obj));
-              // if (resp.homeid != null) {
-              //   this.props.history.push({ pathname: "/EHomePage" });
-              // } else {
-              //   this.props.history.push({ pathname: "/AddHomePage" });
-              // }
-              console.log(resp);
-
-              // this.props.history.push({ pathname: "/PHomePage" });
-            } else {
-              fieldTitle = "Chip not created";
-              this.handleToast();
-            }
-          })
-          .catch((error) => {
-            console.log("Chip not created", error);
-          });
-      });
+      localStorage.setItem("ChipName", JSON.stringify(this.state.name));
       this.props.history.push({ pathname: "/BuilderChip" });
     }
   }
@@ -244,17 +175,3 @@ class ChipSetup extends React.Component {
 }
 
 export default ChipSetup;
-
-/* 
-<IonTextarea
-                className="contBod"
-                style={{
-                  width: "15rem",
-                }}
-                spellcheck="true"
-                color="dark"
-                placeholder="Chip Name"
-                rows="4"
-                cols="50"
-              />
-*/

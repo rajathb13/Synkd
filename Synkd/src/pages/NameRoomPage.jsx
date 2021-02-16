@@ -68,7 +68,7 @@ class NameRoom extends React.Component {
         result
           .json()
           .then((resp) => {
-            if (resp.rooms._id) {
+            if (resp.message === "Room Created") {
               /*On success, setting the homeid in the local storage*/
               //let obj = resp.;
               //localStorage.setItem("homeid", JSON.stringify(obj));

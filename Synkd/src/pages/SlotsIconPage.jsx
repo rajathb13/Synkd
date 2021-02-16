@@ -21,12 +21,12 @@ class SlotsIconPage extends React.Component {
   }
 
   TVfn() {
-    localStorage.setItem("slotsicon", JSON.stringify("tvSharp"));
+    localStorage.setItem("Slotsicon", JSON.stringify("tvSharp"));
     this.props.history.push({ pathname: "/NameSlots" });
     this.refreshPage();
   }
   BulbFn() {
-    localStorage.setItem("slotsicon", JSON.stringify("bulb"));
+    localStorage.setItem("Slotsicon", JSON.stringify("bulb"));
     this.props.history.push({ pathname: "/NameSlots" });
     this.refreshPage();
   }

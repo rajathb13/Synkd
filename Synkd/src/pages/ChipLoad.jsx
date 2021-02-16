@@ -16,13 +16,12 @@ import {
   IonTitle,
   IonHeader,
   IonToast,
-  IonFooter,
-  IonGrid,
 } from "@ionic/react";
-import { bedSharp, hardwareChip, addCircle } from "ionicons/icons";
+import { hardwareChip, addCircle } from "ionicons/icons";
 import React from "react";
 import "./LoginPage.css";
 import Modal from "simple-react-modal";
+import { withRouter } from "react-router";
 
 const contentStyle = {
   height: "200px",
@@ -49,8 +48,11 @@ const test = {
 var fieldTitle = "";
 var data = "";
 var auth_token = "";
+var defaultChipName = "";
 
 ///room/retrieve-switchcontrollers
+//"FC:F5:C4:96:88:06"
+
 class ChipSetup extends React.Component {
   constructor() {
     super();
@@ -58,11 +60,14 @@ class ChipSetup extends React.Component {
     this.state = {
       roomid: "",
       switchitems: [],
+      slotsItems: [],
       name: "",
       state: "0",
       mac: "",
+      selectedMac: "",
     };
     this.close = this.close.bind(this);
+    this.displayfn = this.displayfn.bind(this);
   }
   show() {
     this.setState({ show: true });
@@ -84,6 +89,7 @@ class ChipSetup extends React.Component {
     setTimeout(() => {
       this.LoadFn();
     }, 500);
+    defaultChipName = JSON.parse(localStorage.getItem("ChipName"));
   }
 
   handleToast() {
@@ -91,6 +97,21 @@ class ChipSetup extends React.Component {
       tshow: !this.state.tshow,
     });
   }
+
+  displayfn = (e) => {
+    const id = e.target.id;
+    console.log(id);
+    this.setState({ selectedMac: id });
+    localStorage.setItem("selectedMac", JSON.stringify(id));
+    console.log(this.state.slotsItems);
+    if (this.state.slotsItems.length === 0) {
+      this.props.history.push({ pathname: "/ChipLoad" });
+    } else {
+      this.props.history.push({ pathname: "/LoadSlots" });
+    }
+
+    //this.refreshPage();
+  };
 
   NewSlotFn() {
     this.props.history.push({ pathname: "/SlotsIcon" });
@@ -156,17 +177,12 @@ class ChipSetup extends React.Component {
         .then((resp) => {
           if (resp) {
             this.setState({ switchitems: resp.switchControllers });
-            /*On success, setting the homeid in the local storage*/
-            //let obj = resp.createdHome._id;
-            //localStorage.setItem("homeid", JSON.stringify(obj));
-            // if (resp.homeid != null) {
-            //   this.props.history.push({ pathname: "/EHomePage" });
-            // } else {
-            //   this.props.history.push({ pathname: "/AddHomePage" });
-            // }
-            console.log(resp.switchControllers);
-            console.log(this.state.switchitems);
-            //this.props.history.push({ pathname: "/ChipLoad" });
+            this.setState({ slotsItems: resp.switchControllers[0].slots });
+            localStorage.setItem(
+              "ChipName",
+              JSON.stringify(this.state.switchitems[0].name)
+            );
+            //console.log(resp.switchControllers[0].slots);
           } else {
             fieldTitle = "Home not created";
             this.handleToast();
@@ -187,13 +203,18 @@ class ChipSetup extends React.Component {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonSegment color="secondary" scrollable="true">
+          <IonSegment
+            color="secondary"
+            scrollable="true"
+            value={defaultChipName}
+          >
             {this.state.switchitems.map((item, index) => {
               return (
                 <IonSegmentButton
                   type="button"
                   id={item.mac}
                   onClick={this.displayfn}
+                  value={item.name}
                 >
                   <IonLabel style={{ fontSize: "13px" }}>{item.name}</IonLabel>
                 </IonSegmentButton>
@@ -308,4 +329,4 @@ class ChipSetup extends React.Component {
   }
 }
 
-export default ChipSetup;
+export default withRouter(ChipSetup);

@@ -53,14 +53,14 @@ class Homepage extends React.Component {
       result
         .json()
         .then((resp) => {
-          if (resp.rooms != null) {
+          if (resp.rooms.length !== 0) {
             console.log(resp);
             /*On success, setting the user name in the local storage*/
             this.props.history.push({ pathname: "/PHomePage" });
             this.refreshPage();
+            console.log(resp);
           } else {
-            //this.props.history.push({ pathname: "/EHomePage" });
-            //this.refreshPage();
+            this.props.history.push({ pathname: "/EHomePage" });
           }
         })
         .catch((error) => {

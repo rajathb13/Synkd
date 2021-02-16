@@ -21,7 +21,7 @@ var fieldTitle = "";
 var iname = "";
 var iconname = "";
 var auth_token;
-var slotnumber = 0;
+var slotnumber = 1;
 
 class NameSlots extends React.Component {
   constructor(props) {
@@ -66,6 +66,7 @@ class NameSlots extends React.Component {
         this.handleToast();
       } else {
         console.log(slotnumber);
+        this.setState({ slotnumber: slotnumber });
         var data = this.state;
         slotnumber++;
         console.log(data);
@@ -80,7 +81,7 @@ class NameSlots extends React.Component {
           result
             .json()
             .then((resp) => {
-              if (resp) {
+              if (resp.message === "Slot Created") {
                 //this.setState({ items: resp.rooms });
                 /*On success, setting the homeid in the local storage*/
                 //let obj = resp.createdHome._id;
@@ -92,8 +93,8 @@ class NameSlots extends React.Component {
                 // }
                 console.log(resp);
 
-                //this.props.history.push({ pathname: "/BuilderChip" });
-                //this.refreshPage();
+                this.props.history.push({ pathname: "/LoadSlots" });
+                this.refreshPage();
               } else {
                 fieldTitle = "Slot not created";
                 this.handleToast();

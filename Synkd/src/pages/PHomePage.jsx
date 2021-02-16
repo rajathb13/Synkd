@@ -1,3 +1,5 @@
+/* This is the home page with rooms populated */
+
 import {
   IonContent,
   IonPage,
@@ -134,7 +136,7 @@ class PHomepage extends React.Component {
                       onClick={this.displayfn}
                     >
                       <IonIcon
-                        icon={bedSharp}
+                        icon={item.iconname}
                         size="large"
                         className="io-icon"
                       ></IonIcon>

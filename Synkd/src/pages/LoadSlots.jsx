@@ -19,10 +19,15 @@ import {
   IonFooter,
   IonGrid,
 } from "@ionic/react";
-import { bedSharp, hardwareChip, addCircle } from "ionicons/icons";
+import { hardwareChip, addCircle } from "ionicons/icons";
 import React from "react";
 import "./LoginPage.css";
 import Modal from "simple-react-modal";
+import { withRouter } from "react-router";
+
+var defaultChipName = "";
+var iconname = "";
+var macaddress = require("macaddress");
 
 const contentStyle = {
   height: "90px",
@@ -49,6 +54,14 @@ const test = {
 var fieldTitle = "";
 var data = "";
 var auth_token = "";
+
+const Arpping = require("arpping");
+var arpping = new Arpping({
+  timeout: 4,
+  includeEndpoints: true,
+  useCache: true,
+  cacheTimeout: 30,
+});
 
 ///room/retrieve-switchcontrollers
 class LoadSlots extends React.Component {
@@ -88,6 +101,15 @@ class LoadSlots extends React.Component {
     setTimeout(() => {
       this.getSlotsInfo();
     }, 500);
+    defaultChipName = JSON.parse(localStorage.getItem("ChipName"));
+    this.arpfn();
+  }
+
+  arpfn() {
+    arpping
+      .findMyInfo()
+      .then((info) => console.log(info)) // ex. {"ip": "192.168.0.20", "mac": "01:23:45:67:89:01", "type": "RaspberryPi"}
+      .catch((err) => console.log(err));
   }
 
   handleToast() {
@@ -109,7 +131,7 @@ class LoadSlots extends React.Component {
         .json()
         .then((resp) => {
           if (resp) {
-            //this.setState({ slotsItems: resp.rooms });
+            this.setState({ slotsItems: resp.slots });
             /*On success, setting the homeid in the local storage*/
             //let obj = resp.createdHome._id;
             //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -118,6 +140,7 @@ class LoadSlots extends React.Component {
             // } else {
             //   this.props.history.push({ pathname: "/AddHomePage" });
             // }
+            iconname = resp.slots.sloticon;
             console.log(resp);
 
             //this.props.history.push({ pathname: "/BuilderChip" });
@@ -188,7 +211,7 @@ class LoadSlots extends React.Component {
           .json()
           .then((resp) => {
             if (resp) {
-              //this.setState({ items: resp.rooms });
+              this.setState({ items: resp.rooms });
               /*On success, setting the homeid in the local storage*/
               //let obj = resp.createdHome._id;
               //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -260,13 +283,18 @@ class LoadSlots extends React.Component {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonSegment color="secondary" scrollable="true">
+          <IonSegment
+            color="secondary"
+            scrollable="true"
+            value={defaultChipName}
+          >
             {this.state.switchitems.map((item, index) => {
               return (
                 <IonSegmentButton
                   type="button"
                   id={item.mac}
                   onClick={this.displayfn}
+                  value={item.name}
                 >
                   <IonLabel style={{ fontSize: "13px" }}>{item.name}</IonLabel>
                 </IonSegmentButton>
@@ -296,13 +324,13 @@ class LoadSlots extends React.Component {
                       onClick={this.displayfn}
                     >
                       <IonIcon
-                        icon={bedSharp}
+                        icon={item.sloticon}
                         size="large"
                         className="io-icon"
                       ></IonIcon>
                     </IonButton>
                     <br />
-                    <IonLabel className="icon_label1">{item.roomname}</IonLabel>
+                    <IonLabel className="icon_label1">{item.slotname}</IonLabel>
                   </IonCol>
                 );
               })}
@@ -403,4 +431,4 @@ class LoadSlots extends React.Component {
   }
 }
 
-export default LoadSlots;
+export default withRouter(LoadSlots);
