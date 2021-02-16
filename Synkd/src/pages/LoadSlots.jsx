@@ -55,14 +55,6 @@ var fieldTitle = "";
 var data = "";
 var auth_token = "";
 
-const Arpping = require("arpping");
-var arpping = new Arpping({
-  timeout: 4,
-  includeEndpoints: true,
-  useCache: true,
-  cacheTimeout: 30,
-});
-
 ///room/retrieve-switchcontrollers
 class LoadSlots extends React.Component {
   constructor() {
@@ -102,14 +94,6 @@ class LoadSlots extends React.Component {
       this.getSlotsInfo();
     }, 500);
     defaultChipName = JSON.parse(localStorage.getItem("ChipName"));
-    this.arpfn();
-  }
-
-  arpfn() {
-    arpping
-      .findMyInfo()
-      .then((info) => console.log(info)) // ex. {"ip": "192.168.0.20", "mac": "01:23:45:67:89:01", "type": "RaspberryPi"}
-      .catch((err) => console.log(err));
   }
 
   handleToast() {
