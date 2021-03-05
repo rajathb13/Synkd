@@ -54,7 +54,7 @@ class BuilderChipWifi extends React.Component {
       }
     )
       .then((result) => {
-        if (result.status === 200) {
+        if (result) {
           /*On success, setting the homeid in the local storage*/
           //let obj = resp.createdHome._id;
           //localStorage.setItem("homeid", JSON.stringify(obj));
@@ -110,31 +110,29 @@ class BuilderChipWifi extends React.Component {
       {
         method: "GET",
       }
-    )
-      .then((result) => {
-        if (result) {
-          /*On success, setting the homeid in the local storage*/
-          //let obj = resp.createdHome._id;
-          //localStorage.setItem("homeid", JSON.stringify(obj));
-          // if (resp.homeid != null) {
-          //   this.props.history.push({ pathname: "/EHomePage" });
-          // } else {
-          //   this.props.history.push({ pathname: "/AddHomePage" });
-          // }
-          console.log(result);
-          console.log("success");
-          this.props.history.push({ pathname: "ChipLoad" });
-        } else {
-          fieldTitle = "Chip not reset";
-          this.handleToast();
-        }
-      })
-      .catch((error) => {
-        console.log("Chip not reset", error);
-      });
-    // setTimeout(() => {
-
-    // }, 500);
+    );
+    // .then((result) => {
+    //   if (result) {
+    //     /*On success, setting the homeid in the local storage*/
+    //     //let obj = resp.createdHome._id;
+    //     //localStorage.setItem("homeid", JSON.stringify(obj));
+    //     // if (resp.homeid != null) {
+    //     //   this.props.history.push({ pathname: "/EHomePage" });
+    //     // } else {
+    //     //   this.props.history.push({ pathname: "/AddHomePage" });
+    //     // }
+    //     console.log(result);
+    //     console.log("success");
+    //     this.props.history.push({ pathname: "ChipLoad" });
+    //   } else {
+    //     fieldTitle = "Chip not reset";
+    //     this.handleToast();
+    //   }
+    // })
+    // .catch((error) => {
+    //   console.log("Chip not reset", error);
+    // });
+    this.props.history.push({ pathname: "ConnectToWifiPage" });
   }
 
   render() {

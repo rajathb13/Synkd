@@ -21,7 +21,6 @@ var fieldTitle = "";
 var iname = "";
 var iconname = "";
 var auth_token;
-var slotnumber = 1;
 
 class NameSlots extends React.Component {
   constructor(props) {
@@ -41,12 +40,13 @@ class NameSlots extends React.Component {
     iname = JSON.parse(localStorage.getItem("Slotsicon"));
     console.log(iname);
     this.setState({ icon: iname });
-    this.setState({ slotnumber: slotnumber });
     if (iname === "tvSharp") {
       iname = tvSharp;
+      this.setState({ icon: iname });
     }
     if (iname === "bulb") {
       iname = bulb;
+      this.setState({ icon: iname });
     }
     //var homeid1 = JSON.parse(localStorage.getItem("homeid"));
     //this.setState({ homeid: homeid1 });
@@ -57,54 +57,58 @@ class NameSlots extends React.Component {
   }
 
   CreateSlotFn() {
-    if (!this.state.name) {
-      fieldTitle = "Please enter a Slot Name";
+    var result = "";
+    if (!this.state.name || !this.state.slotnumber) {
+      fieldTitle = "Both Fields are Required";
       this.handleToast();
-    } else {
-      if (slotnumber >= 16) {
-        fieldTitle = "Cannot create any more slots";
+    }
+    if (this.state.slotnumber && this.state.name) {
+      if (this.state.slotnumber > 16) {
+        fieldTitle = "Slot numbers must be between 1-16";
         this.handleToast();
-      } else {
-        console.log(slotnumber);
-        this.setState({ slotnumber: slotnumber });
-        var data = this.state;
-        slotnumber++;
-        console.log(data);
-        fetch("https://clickademy.in/switchcontrollers/set-slot", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + auth_token,
-          },
-          body: JSON.stringify(data),
-        }).then((result) => {
-          result
-            .json()
-            .then((resp) => {
-              if (resp.message === "Slot Created") {
-                //this.setState({ items: resp.rooms });
-                /*On success, setting the homeid in the local storage*/
-                //let obj = resp.createdHome._id;
-                //localStorage.setItem("homeid", JSON.stringify(obj));
-                // if (resp.homeid != null) {
-                //   this.props.history.push({ pathname: "/EHomePage" });
-                // } else {
-                //   this.props.history.push({ pathname: "/AddHomePage" });
-                // }
-                console.log(resp);
-
-                this.props.history.push({ pathname: "/LoadSlots" });
-                this.refreshPage();
-              } else {
-                fieldTitle = "Slot not created";
-                this.handleToast();
-              }
-            })
-            .catch((error) => {
-              console.log("Slot not created", error);
-            });
-        });
       }
+      if (this.state.slotnumber <= 0) {
+        fieldTitle = "Slot numbers must be between 1-16";
+        this.handleToast();
+      }
+      result = true;
+    } else {
+      var data = this.state;
+      console.log(data);
+      fetch("https://clickademy.in/switchcontrollers/set-slot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth_token,
+        },
+        body: JSON.stringify(data),
+      }).then((result) => {
+        result
+          .json()
+          .then((resp) => {
+            if (resp) {
+              //this.setState({ items: resp.rooms });
+              /*On success, setting the homeid in the local storage*/
+              //let obj = resp.createdHome._id;
+              //localStorage.setItem("homeid", JSON.stringify(obj));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              console.log(resp);
+
+              this.props.history.push({ pathname: "/LoadSlots" });
+              this.refreshPage();
+            } else {
+              fieldTitle = "Slot not created";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("Slot not created", error);
+          });
+      });
     }
   }
 
@@ -153,6 +157,19 @@ class NameSlots extends React.Component {
               value={this.state.name}
               onIonChange={(data) => {
                 this.setState({ name: data.target.value });
+              }}
+            ></IonInput>
+          </IonItem>
+          <IonItem className="rn-item">
+            <IonInput
+              className="rn-input"
+              placeholder="Enter Slot Number(1-16)"
+              inputMode="tel"
+              maxlength="2"
+              required="true"
+              value={this.state.slotnumber}
+              onIonChange={(data) => {
+                this.setState({ slotnumber: data.target.value });
               }}
             ></IonInput>
           </IonItem>

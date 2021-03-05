@@ -24,48 +24,6 @@ class BuilderChip extends React.Component {
   constructor() {
     super();
     auth_token = JSON.parse(localStorage.getItem("token"));
-    this.state = {
-      name: "",
-      mac: "",
-      roomid: "",
-      state: "0",
-      slotnames: [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ],
-      sloticons: [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-      ],
-    };
   }
 
   componentDidMount() {
@@ -76,84 +34,39 @@ class BuilderChip extends React.Component {
   }
 
   SettingPagefn() {
-    // fetch("http://" + chiphomeIP + "/mac", {
-    //   method: "GET",
-    // })
-    //   .then((result) => {
-    //     result
-    //       .json()
-    //       .then((resp) => {
-    //         if (resp.mac) {
-    //           //this.setState({ items: resp.rooms });
-    //           /*On success, setting the homeid in the local storage*/
-    //           //let obj = resp.createdHome._id;
-    //           //localStorage.setItem("homeid", JSON.stringify(obj));
-    //           // if (resp.homeid != null) {
-    //           //   this.props.history.push({ pathname: "/EHomePage" });
-    //           // } else {
-    //           //   this.props.history.push({ pathname: "/AddHomePage" });
-    //           // }
-    //           console.log(resp.mac);
-    //           localStorage.setItem("mac", JSON.stringify(resp.mac));
-    //           this.props.history.push({ pathname: "/BuilderChipWifi" });
-    //           //this.refreshPage();
-    //         } else {
-    //           fieldTitle = "Home not created";
-    //           this.handleToast();
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.log("Home not created", error);
-    //       });
-    //   })
-    //   .catch((error) => {
-    //     console.log("Wifi details not sent", error);
-    //   });
-
-    setTimeout(() => {
-      this.NewSlotFn();
-    }, 500);
-  }
-
-  NewSlotFn() {
-    var macAdd = JSON.parse(localStorage.getItem("mac"));
-    this.setState({ mac: macAdd });
-    data = this.state;
-    console.log(data);
-    fetch("https://clickademy.in/switchcontrollers/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth_token,
-      },
-      body: JSON.stringify(data),
-    }).then((result) => {
-      result
-        .json()
-        .then((resp) => {
-          if (resp) {
-            //this.setState({ items: resp.rooms });
-            /*On success, setting the homeid in the local storage*/
-            //let obj = resp.createdHome._id;
-            //localStorage.setItem("homeid", JSON.stringify(obj));
-            // if (resp.homeid != null) {
-            //   this.props.history.push({ pathname: "/EHomePage" });
-            // } else {
-            //   this.props.history.push({ pathname: "/AddHomePage" });
-            // }
-            console.log(resp);
-
-            // this.props.history.push({ pathname: "/PHomePage" });
-          } else {
-            fieldTitle = "Chip not created";
-            this.handleToast();
-          }
-        })
-        .catch((error) => {
-          console.log("Chip not created", error);
-        });
-    });
-    this.props.history.push({ pathname: "/BuilderChipWifi" });
+    fetch("http://" + chiphomeIP + "/mac", {
+      method: "GET",
+    })
+      .then((result) => {
+        result
+          .json()
+          .then((resp) => {
+            if (resp.mac) {
+              //this.setState({ items: resp.rooms });
+              /*On success, setting the homeid in the local storage*/
+              //let obj = resp.createdHome._id;
+              //localStorage.setItem("homeid", JSON.stringify(obj));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              console.log(resp.mac);
+              localStorage.setItem("mac", JSON.stringify(resp.mac));
+              this.props.history.push({ pathname: "/BuilderChipWifi" });
+              //this.refreshPage();
+            } else {
+              fieldTitle = "mac not got";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("mac not got", error);
+          });
+      })
+      .catch((error) => {
+        console.log("mac not got", error);
+      });
   }
 
   render() {

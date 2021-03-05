@@ -19,7 +19,7 @@ import {
   IonFooter,
   IonGrid,
 } from "@ionic/react";
-import { hardwareChip, addCircle } from "ionicons/icons";
+import { hardwareChip, addCircle, tvSharp, bulb } from "ionicons/icons";
 import React from "react";
 import "./LoginPage.css";
 import Modal from "simple-react-modal";
@@ -27,7 +27,6 @@ import { withRouter } from "react-router";
 
 var defaultChipName = "";
 var iconname = "";
-var macaddress = require("macaddress");
 
 const contentStyle = {
   height: "90px",
@@ -54,6 +53,8 @@ const test = {
 var fieldTitle = "";
 var data = "";
 var auth_token = "";
+var macAdd = "";
+var IP = "";
 
 ///room/retrieve-switchcontrollers
 class LoadSlots extends React.Component {
@@ -67,6 +68,7 @@ class LoadSlots extends React.Component {
       name: "",
       state: "0",
       mac: "",
+      ip: "",
     };
     this.close = this.close.bind(this);
   }
@@ -82,11 +84,23 @@ class LoadSlots extends React.Component {
     window.location.reload();
   }
 
+  sloticonfn(e) {
+    if (e === tvSharp) {
+      iconname = tvSharp;
+      return iconname;
+    }
+    if (e === bulb) {
+      iconname = bulb;
+      return iconname;
+    }
+  }
+
   componentDidMount() {
     var id = JSON.parse(localStorage.getItem("roomid"));
     this.setState({ roomid: id });
-    var macAdd = JSON.parse(localStorage.getItem("mac"));
+    macAdd = JSON.parse(localStorage.getItem("mac"));
     this.setState({ mac: macAdd });
+    console.log(this.state);
     setTimeout(() => {
       this.LoadFn();
     }, 500);
@@ -94,12 +108,20 @@ class LoadSlots extends React.Component {
       this.getSlotsInfo();
     }, 500);
     defaultChipName = JSON.parse(localStorage.getItem("ChipName"));
+    setTimeout(() => {
+      //console.log(this.state);
+      this.getIPfn();
+    }, 500);
   }
 
   handleToast() {
     this.setState({
       tshow: !this.state.tshow,
     });
+  }
+
+  newSlotFn() {
+    this.props.history.push({ pathname: "/SlotsIcon" });
   }
 
   getSlotsInfo() {
@@ -117,8 +139,8 @@ class LoadSlots extends React.Component {
           if (resp) {
             this.setState({ slotsItems: resp.slots });
             /*On success, setting the homeid in the local storage*/
-            //let obj = resp.createdHome._id;
-            //localStorage.setItem("homeid", JSON.stringify(obj));
+            let obj = this.state.slotsItems.length;
+            localStorage.setItem("slotnumber", JSON.stringify(obj));
             // if (resp.homeid != null) {
             //   this.props.history.push({ pathname: "/EHomePage" });
             // } else {
@@ -130,12 +152,12 @@ class LoadSlots extends React.Component {
             //this.props.history.push({ pathname: "/BuilderChip" });
             //this.refreshPage();
           } else {
-            fieldTitle = "Home not created";
+            fieldTitle = "SLot not Loaded";
             this.handleToast();
           }
         })
         .catch((error) => {
-          console.log("Home not created", error);
+          console.log("Slot not Loaded", error);
         });
     });
   }
@@ -219,6 +241,115 @@ class LoadSlots extends React.Component {
       });
       this.props.history.push({ pathname: "/ChipLoad" });
     }
+  }
+
+  onclickFn() {
+    var slotnum = JSON.parse(localStorage.getItem("slotnumber"));
+    console.log(slotnum);
+    var check = this.verifyFn();
+    if (check === true) {
+      fetch(
+        "http://" + IP + "/chip-interface?serial_input=io~toggle| |" + slotnum,
+        {
+          method: "GET",
+        }
+      ).then((result) => {
+        result
+          .json()
+          .then((resp) => {
+            if (resp) {
+              /*On success, setting the homeid in the local storage*/
+              //let obj = resp.createdHome._id;
+              // localStorage.setItem("ip", JSON.stringify(resp.ip));
+              // if (resp.homeid != null) {
+              //   this.props.history.push({ pathname: "/EHomePage" });
+              // } else {
+              //   this.props.history.push({ pathname: "/AddHomePage" });
+              // }
+              console.log(resp);
+              //this.props.history.push({ pathname: "/ChipLoad" });
+              return true;
+            } else {
+              fieldTitle = "Error ";
+              this.handleToast();
+            }
+          })
+          .catch((error) => {
+            console.log("On click not working", error);
+          });
+      });
+    }
+  }
+
+  verifyFn() {
+    data = this.state;
+    IP = JSON.parse(localStorage.getItem("ip"));
+    //this.setState({ ip: IP });
+    fetch("http://" + IP + "/mac", {
+      method: "GET",
+    }).then((result) => {
+      result
+        .json()
+        .then((resp) => {
+          if (resp.mac === macAdd) {
+            /*On success, setting the homeid in the local storage*/
+            //let obj = resp.createdHome._id;
+            // localStorage.setItem("ip", JSON.stringify(resp.ip));
+            // if (resp.homeid != null) {
+            //   this.props.history.push({ pathname: "/EHomePage" });
+            // } else {
+            //   this.props.history.push({ pathname: "/AddHomePage" });
+            // }
+            console.log(resp.mac);
+            //this.props.history.push({ pathname: "/ChipLoad" });
+            return true;
+          } else {
+            fieldTitle = "MAC not Matching ";
+            this.handleToast();
+            return false;
+          }
+        })
+        .catch((error) => {
+          console.log("MAC not Matching", error);
+        });
+    });
+  }
+
+  getIPfn() {
+    data = this.state;
+    //console.log(data);
+    fetch("https://clickademy.in/switchcontrollers/get-ip", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth_token,
+      },
+      body: JSON.stringify(data),
+    }).then((result) => {
+      result
+        .json()
+        .then((resp) => {
+          if (resp) {
+            /*On success, setting the homeid in the local storage*/
+            //let obj = resp.createdHome._id;
+            localStorage.setItem("ip", JSON.stringify(resp.ip));
+            // if (resp.homeid != null) {
+            //   this.props.history.push({ pathname: "/EHomePage" });
+            // } else {
+            //   this.props.history.push({ pathname: "/AddHomePage" });
+            // }
+            console.log(resp);
+
+            //this.props.history.push({ pathname: "/ChipLoad" });
+          } else {
+            fieldTitle = "Ip not Got ";
+            this.handleToast();
+          }
+        })
+        .catch((error) => {
+          console.log("IP not got", error);
+        });
+    });
   }
 
   LoadFn() {
@@ -305,7 +436,7 @@ class LoadSlots extends React.Component {
                       expand="block"
                       color="medium"
                       id={item._id}
-                      onClick={this.displayfn}
+                      onClick={() => this.onclickFn()}
                     >
                       <IonIcon
                         icon={item.sloticon}
@@ -329,7 +460,7 @@ class LoadSlots extends React.Component {
               style={contentStyle}
               fill="clear"
               onClick={() => {
-                this.NewSlotFn();
+                this.newSlotFn();
               }}
             >
               <IonIcon

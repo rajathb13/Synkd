@@ -38,6 +38,7 @@ import ChipNamePage from "./pages/ChipNamePage";
 import SlotsIcon from "./pages/SlotsIconPage";
 import NameSlots from "./pages/NameSlotsPage";
 import LoadSlots from "./pages/LoadSlots";
+import ConnectToWifiPage from "./pages/ConnectToWifiPage";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -133,6 +134,11 @@ class App extends React.Component {
               <Route path="/SlotsIcon" component={SlotsIcon} exact={true} />
               <Route path="/NameSlots" component={NameSlots} exact={true} />
               <Route path="/LoadSlots" component={LoadSlots} exact={true} />
+              <Route
+                path="/ConnectToWifiPage"
+                component={ConnectToWifiPage}
+                exact={true}
+              />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>

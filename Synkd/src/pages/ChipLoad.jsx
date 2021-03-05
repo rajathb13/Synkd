@@ -49,6 +49,7 @@ var fieldTitle = "";
 var data = "";
 var auth_token = "";
 var defaultChipName = "";
+var macAdd = "";
 
 ///room/retrieve-switchcontrollers
 //"FC:F5:C4:96:88:06"
@@ -84,7 +85,7 @@ class ChipSetup extends React.Component {
   componentDidMount() {
     var id = JSON.parse(localStorage.getItem("roomid"));
     this.setState({ roomid: id });
-    var macAdd = JSON.parse(localStorage.getItem("mac"));
+    macAdd = JSON.parse(localStorage.getItem("mac"));
     this.setState({ mac: macAdd });
     setTimeout(() => {
       this.LoadFn();
@@ -177,19 +178,21 @@ class ChipSetup extends React.Component {
         .then((resp) => {
           if (resp) {
             this.setState({ switchitems: resp.switchControllers });
-            this.setState({ slotsItems: resp.switchControllers[0].slots });
+            if (resp.switchControllers[0].slots) {
+              this.setState({ slotsItems: resp.switchControllers[0].slots });
+            }
             localStorage.setItem(
               "ChipName",
               JSON.stringify(this.state.switchitems[0].name)
             );
-            //console.log(resp.switchControllers[0].slots);
+            console.log(resp);
           } else {
-            fieldTitle = "Home not created";
+            fieldTitle = "Chips not Loaded";
             this.handleToast();
           }
         })
         .catch((error) => {
-          console.log("Home not created", error);
+          console.log("Chips not Loaded", error);
         });
     });
   }
