@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import '../components/Splash.css';
 import img1 from "../images/synkd_logo.png"
 
-var phone;
 var token;
 
 function LoadingMessage() {
@@ -17,7 +16,6 @@ function withSplashScreen(WrappedComponent) {
   return class extends Component {
     constructor(props) {
       super(props);
-      //phone = JSON.parse(localStorage.getItem('myData'))
       token = JSON.parse(localStorage.getItem('token'))
       this.state = {
         loading: true,
@@ -26,7 +24,7 @@ function withSplashScreen(WrappedComponent) {
 
     async componentDidMount() {
            if(token !== '')
-           // window.location.href = "/VHome"
+           
         setTimeout(() => {
           this.setState({
             loading: false,
@@ -35,8 +33,6 @@ function withSplashScreen(WrappedComponent) {
     }
 
     render() {
-        //console.log(phone)
-        //console.log(token)
       // while checking user session, show "loading" message
       if (this.state.loading) 
       return LoadingMessage();

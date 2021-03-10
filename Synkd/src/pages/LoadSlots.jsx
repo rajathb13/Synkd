@@ -437,13 +437,12 @@ class LoadSlots extends React.Component {
                 return (
                   <IonCol className="phome-col ion-align-self-center" size="4">
                     <IonButton
-                      fill="solid"
-                      className="icon-btn ion-no-padding"
+                      className="no-glow-btn ion-no-padding"
                       shape="round"
                       size="large"
                       expand="block"
-                      color="medium"
                       id={item._id}
+                      color="rgba(145, 92, 182, 0.4)"
                       onClick={() => this.onclickFn()}
                     >
                       <IonIcon
@@ -459,9 +458,7 @@ class LoadSlots extends React.Component {
               })}
             </IonRow>
           </IonGrid>
-
           <IonItem lines="none" className="ion-float-right"></IonItem>
-
           <IonFooter className="ion-no-border" style={{ textAlign: "end" }}>
             <IonButton
               mode="md"
