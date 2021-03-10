@@ -55,6 +55,7 @@ var data = "";
 var auth_token = "";
 var macAdd = "";
 var IP = "";
+var check = "";
 
 ///room/retrieve-switchcontrollers
 class LoadSlots extends React.Component {
@@ -112,6 +113,10 @@ class LoadSlots extends React.Component {
       //console.log(this.state);
       this.getIPfn();
     }, 500);
+    var num = 49085;
+    var bin = 1011111110111101;
+    console.log(Number(num).toString(2));
+    console.log(parseInt(bin, 2));
   }
 
   handleToast() {
@@ -245,8 +250,11 @@ class LoadSlots extends React.Component {
 
   onclickFn() {
     var slotnum = JSON.parse(localStorage.getItem("slotnumber"));
+    slotnum = slotnum - 1;
+    IP = JSON.parse(localStorage.getItem("ip"));
     console.log(slotnum);
-    var check = this.verifyFn();
+    //var check = true;
+    this.verifyFn();
     if (check === true) {
       fetch(
         "http://" + IP + "/chip-interface?serial_input=io~toggle| |" + slotnum,
@@ -302,7 +310,7 @@ class LoadSlots extends React.Component {
             // }
             console.log(resp.mac);
             //this.props.history.push({ pathname: "/ChipLoad" });
-            return true;
+            check = true;
           } else {
             fieldTitle = "MAC not Matching ";
             this.handleToast();
